@@ -77,8 +77,8 @@ module.exports = {
           collapsable: true,
           children: [
             ["", "react"],
-            ["three", "three"],
-            ["four", "four"],
+            ["redux", "redux"],
+            ["dva", "dva"],
           ],
         },
       ],
@@ -98,6 +98,7 @@ module.exports = {
       "/shortcut/": [""],
       "/markdown/": [""],
       "/vuepress/": [""],
+      "/other/": [""],
       // "/": [""], //这个一定要放最后, 或者直接就不要
     },
 
