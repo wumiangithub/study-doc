@@ -7,3 +7,5 @@
 #### 动态路由
 
 `router.addRoutes(routes: Array<RouteConfig>)`
+
+> [vue2官网](https://v2.cn.vuejs.org/)

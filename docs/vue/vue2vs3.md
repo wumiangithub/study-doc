@@ -64,6 +64,34 @@ const asyncModalWithOptions = defineAsyncComponent({
 * Transition 的一些 class 被重命名
 * $attrs 现在包含了所有传递给组件的 attribute，包括 class 和 style。
 
+## 生命周期变化
+
+| vue2          | vue3 选项式 API   | vue3 组合式 API     |
+| :------------ | :---------------- | :------------------ |
+| beforeCreate  | beforeCreate      | ----                |
+| created       | created           | ----                |
+| beforeMount   | beforeMount       | onBeforeMount()     |
+| mounted       | mounted           | onMounted()         |
+| beforeUpdate  | beforeUpdate      | onBeforeUpdate()    |
+| updated       | updated           | onUpdated()         |
+| activated     | activated         | onActivated()       |
+| deactivated   | deactivated       | onDeactivated()     |
+| beforeDestroy | **beforeUnmount** | onBeforeUnmount()   |
+| destroyed     | **unmounted**     | onUnmounted()       |
+| errorCaptured | errorCaptured     | onErrorCaptured()   |
+| ----          | renderTracked     | onRenderTracked()   |
+| ----          | renderTriggered   | onRenderTriggered() |
+| ----          | serverPrefetch    | onServerPrefetch()  |
+
+**setup 在 beforeCreate 之前就运行了**
+
+- onRenderTracked  
+  调试钩子,仅在开发模式下可用，且在服务器端渲染期间不会被调用
+- onRenderTriggered
+  调试钩子,仅在开发模式下可用，且在服务器端渲染期间不会被调用
+- onServerPrefetch
+  注册一个异步函数，在组件实例在服务器上被渲染之前调用。
+
 # 学习文档
 
 > [vue2 和 vue3 区别官网链接](https://v3-migration.vuejs.org/)

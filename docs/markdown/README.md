@@ -29,6 +29,13 @@ this is a tip
 :tada: :100: :bamboo: :gift_heart: :fire:
 [Emoji 大全](https://www.webfx.com/tools/emoji-cheat-sheet/)
 
+## 表格
+
+| 左对齐 | 右对齐 | 居中对齐 |
+| :----- | -----: | :------: |
+| 单元格 | 单元格 |  单元格  |
+| 单元格 | 单元格 |  单元格  |
+
 ## markdown 学习文档
 
 > [md 文件的基本常用编写语法参考链接](https://www.manongdao.com/article-2278972.html)
