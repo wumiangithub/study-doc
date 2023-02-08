@@ -40,7 +40,7 @@ myArray = ["Bob", "Fred", 5555];
 let myStr: unknown = myArray[0];
 ```
 
-### <> 的使用
+### typeof
 
 ```js
 // 定义一个对象并从中推断出它的键。
@@ -54,6 +54,24 @@ const fun = (info: typeof persons) => {
   console.log(info[0].name);
 };
 ```
+
+### <> 的使用
+
+**用作泛型**
+
+```js
+function identity<T>(arg: T): T {
+  return arg;
+}
+```
+
+**类型断言**
+
+```js
+let strLength: number = (<string>someValue).length;
+```
+
+**包裹 interface**
 
 ```js
 // 如果希望对象具有固定键，则可以使用类型和接口。
@@ -83,6 +101,7 @@ interface IPerson {
   age: number;
 }
 
+// Partial代表部分的，意思就是IPerson中的属性哪怕是没有?的也可以不传
 const persons: Array<Partial<IPerson>> = [
   { name: "John" }, // You can do it.
   { name: "Ben", age: 20 },
@@ -94,6 +113,8 @@ const fun = (info: Partial<IPerson>[]) => {
   console.log(info[0].name);
 };
 ```
+
+**注意：Partial 代表部分的，意思就是 interface 中的属性哪怕是没有?的也可以不传**
 
 ## 特殊类型
 

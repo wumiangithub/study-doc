@@ -41,6 +41,95 @@ setup(props) {
   主要是因为 setup 函数中不能访问 this，所以无法通过 this.$emit 发出事件
 - expose：暴露公共属性（函数）
 
+### setup 中怎么获取 options api 中 data 中的数据
+
+- 通过函数传参
+
+```
+<div v-on:click="fun(testdata)"></div>
+
+setup(){
+	const  fun=(i)=>{
+	  alert(i)
+	}
+},
+data(){
+	return{
+	   testdata:1,
+	}
+}
+```
+
+### setup 如何访问路由
+
+```js
+import { onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+onMounted(function () {
+  const route = useRoute();
+  console.log(route.params.id);
+
+  const router = useRouter();
+  router.push({
+    name: "search",
+    query: {
+      /**/
+    },
+  });
+});
+```
+
+**使用 root 根实例**
+
+```js
+// root是vue的根实例，实例上有$router对象
+setup(props , { root }){
+    const name = ref("")
+    const orderId = ref("");
+    orderId.value = root.$route.query.orderId;
+    root.$router.push({
+         path: '/ccList',
+         query: { name: name.value },
+    });
+    return {
+        orderId,
+        name ,
+    };
+};
+```
+
+**使用 useRouter**
+
+```js
+
+import { useRouter, onMounted } from 'vue-router'
+
+setup (props, context) {
+  const router = useRouter();
+  onMounted(() => {
+    // 打印
+    console.log('router:', router.currentRoute.value.query)
+  })
+  return {}
+
+```
+
+**使用 useRoute**
+
+```js
+import { useRoute, onMounted, toRaw } from 'vue-router'
+
+setup (props, context) {
+  const route = useRoute();
+  onMounted(() => {
+    // 打印
+    console.log('route:', toRaw(route).query.value)
+  })
+  return {}
+}
+
+```
+
 ## ref、reactive
 
 - ref 可以为所有数据类型添加响应式状态
@@ -192,9 +281,79 @@ stop();
 **Pinia 是作为 Vuex 5 的雏形而创建的**  
 **Vuex 4.0 还提供对于 Vue 3 的支持，其 API 与 3.x 大致相同**
 
-> [官网文档](https://pinia.web3doc.top/)
+### storeToRefs
+
+**从 Store 中提取属性同时保持其响应式**
+
+```js
+import { storeToRefs } from "pinia";
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    // `name` 和 `doubleCount` 是响应式引用
+    // 这也会为插件添加的属性创建引用
+    // 但跳过任何 action 或 非响应式（不是 ref/reactive）的属性
+    const { name, doubleCount } = storeToRefs(store);
+
+    return {
+      name,
+      doubleCount,
+    };
+  },
+});
+```
+
+```js
+export default {
+  setup() {
+    const store = useStore();
+
+    return { getUserById: store.getUserById, count: store.count };
+  },
+};
+```
+
+**store 中调用别的 store**
+
+```js
+import { useOtherStore } from "./other-store";
+
+export const useStore = defineStore("main", {
+  state: () => ({
+    // ...
+  }),
+  getters: {
+    otherGetter(state) {
+      const otherStore = useOtherStore();
+      return state.localData + otherStore.data;
+    },
+  },
+});
+```
+
+**订阅**
+
+- someStore.$onAction 订阅 action
+- cartStore.$subscribe 订阅 state
+
+### Pinia VS vuex
+
+| vuex       | pinia                                      |
+| :--------- | :----------------------------------------- |
+| mapState   | mapState :取出的 state 只可读              |
+| ---        | mapWritableState:取出的 state 可以直接修改 |
+| mapGetters | 用 mapState 代替                           |
+| Mutation   | 废弃                                       |
+| mapActions | mapActions                                 |
+
+> [Pinia 官网文档](https://pinia.web3doc.top/)  
+> [vuex 官网文档](https://vuex.vuejs.org/zh/)
 
 ## Vite
+
+**Vite 开发环境是基于原生 ES6 Modules，在生产环境下打包使用的是 Rollup。  
+vue-cli 基于 webpack 封装，生产环境和开发环境都是基于 Webpack 打包**
 
 ## VUE3.0 学习文档
 
