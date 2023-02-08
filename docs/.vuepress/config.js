@@ -12,10 +12,11 @@ module.exports = {
       {
         text: "技术",
         items: [
+          { text: "前端", link: "/web/" },
           { text: "vue", link: "/vue/" },
           { text: "react", link: "/react/" },
           { text: "typescript", link: "/ts/" },
-          { text: "前端", link: "/web/" },
+          { text: "webpack", link: "/webpack/" },
           { text: "快捷键", link: "/shortcut/" },
           { text: "markdown", link: "/markdown/" },
           { text: "vuepress", link: "/vuepress/" },
@@ -91,12 +92,24 @@ module.exports = {
             ["zhishi", "知识点"],
             ["mianshi", "面试题"],
             ["mianshi_lilun", "面试题-理论"],
-            ["mianshi_xinneng", "面试题-性能优化"],
+            ["mianshi_xingneng", "面试题-性能优化"],
             ["css", "css"],
             ["less", "less"],
             ["sass", "sass"],
             ["webGL", "webGL"],
             ["threejs", "threejs"],
+          ],
+        },
+      ],
+      "/webpack/": [
+        {
+          title: "webpack",
+          collapsable: true,
+          children: [
+            ["", "webpack"],
+            ["mianshi", "面试"],
+            ["xingneng", "性能优化"],
+            ["build_xingneng", "优化打包构建速度"],
           ],
         },
       ],
