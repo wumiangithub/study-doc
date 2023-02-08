@@ -95,6 +95,8 @@ module.exports = {
             ["css", "css"],
             ["less", "less"],
             ["sass", "sass"],
+            ["webGL", "webGL"],
+            ["threejs", "threejs"],
           ],
         },
       ],

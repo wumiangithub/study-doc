@@ -36,6 +36,10 @@ this is a tip
 | 单元格 | 单元格 |  单元格  |
 | 单元格 | 单元格 |  单元格  |
 
+## 图片
+
+![圣杯布局](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071323.png)
+
 ## markdown 学习文档
 
 > [md 文件的基本常用编写语法参考链接](https://www.manongdao.com/article-2278972.html)

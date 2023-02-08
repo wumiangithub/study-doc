@@ -55,9 +55,37 @@ p
   white-space: nowrap
   }
 
-  pre  空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
+pre  空白会被浏览器保留。其行为方式类似 HTML 中的 <pre> 标签。
 ```
+
+## flex
+
+```
+flex-shink  : 0 //不允许缩小
+flex-grow  : 0 //不允许变大
+flex  : 1 //自适应大小
+flex的含义
+flex是 flex-grow 、flex-shrink 、flex-basis属性的缩写
+flex:1 === flex:1 1 0px
+```
+
+## 网格布局
+
+```
+display: grid;
+display: inline-grid;
+```
+
+[参考](https://www.runoob.com/css3/css-grid.html)
 
 ## 经典布局
 
-###
+### 圣杯布局
+
+![圣杯布局](https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071323.png)
+
+### 双飞翼布局
+
+### 两列布局
+
+### 三列布局

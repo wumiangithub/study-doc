@@ -23,3 +23,7 @@ console.log(document.getElementById("shadow").firstChild); // 返回null
 console.log(document.getElementById("shadow").shadowRoot.firstChild);
 // 返回影子节点
 ```
+
+## BFF项目
+BFF——服务于前端的后端(Back-end For Front-end)  
+如：graphql

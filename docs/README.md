@@ -12,11 +12,9 @@ features:
     details: 多种语言，海量实例
   - title: 实用
     details: 常用知识点，精选面试题
+footer: MIT Licensed | <a href="https://beian.miit.gov.cn/#/Integrated/index">沪 ICP 备 19040337 号</a> | Copyright © 2019 wumian #尾行
 ---
 
-
-
-
 <br>
 <br>
 <br>
@@ -29,10 +27,6 @@ features:
 <br>
 <br>
 <br>
-
-
-
-
 
 <div align="center">
 MIT Licensed | <a href="https://beian.miit.gov.cn/#/Integrated/index">沪 ICP 备 19040337 号</a> | Copyright © 2019 wumian
