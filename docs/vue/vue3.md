@@ -175,9 +175,51 @@ isReactive(state.nested); // false
 state.nested.bar++;
 ```
 
-## toRef toRefs
+## toRef & toRefs
 
-**即使源属性当前不存在，toRef() 也会返回一个可用的 ref。这让它在处理可选 props 的时候格外实用，相比之下 toRefs 就不会为可选 props 创建对应的 refs**。
+- 基于响应式对象上的一个属性，创建一个对应的 ref  
+  即使源属性当前不存在，toRef() 也会返回一个可用的 ref。这让它在处理可选 props 的时候格外实用，相比之下 toRefs 就不会为可选 props 创建对应的 refs
+
+```js
+const state = reactive({
+  foo: 1,
+  bar: 2,
+});
+
+const fooRef = toRef(state, "foo");
+
+// 更改该 ref 会更新源属性
+fooRef.value++;
+console.log(state.foo); // 2
+
+// 更改源属性也会更新该 ref
+state.foo++;
+console.log(fooRef.value); // 3
+```
+
+- toRef() 这个函数在你想把一个 prop 的 ref 传递给一个组合式函数时会很有用  
+   当 toRef 与组件 props 结合使用时，关于禁止对 props 做出更改的限制依然有效。  
+   尝试将新的值传递给 ref 等效于尝试直接更改 props，这是不允许的。  
+   在这种场景下，你可能可以考虑使用带有 get 和 set 的 computed 替代。
+
+```js
+import { toRef } from "vue";
+
+const props = defineProps(/_ ... _/);
+
+// 将 `props.foo` 转换为 ref，然后传入
+// 一个组合式函数
+useSomeFeature(toRef(props, "foo"));
+```
+
+## toRow & markRaw
+
+- toRow
+  根据一个 Vue 创建的代理返回其原始对象。
+  toRaw() 可以返回由 reactive()、readonly()、shallowReactive() 或者 shallowReadonly() 创建的代理对应的原始对象。
+
+- markRaw
+  将一个对象标记为不可被转为代理。返回该对象本身。
 
 ## triggerRef()
 
@@ -357,7 +399,8 @@ vue-cli 基于 webpack 封装，生产环境和开发环境都是基于 Webpack 
 
 ## VUE3.0 学习文档
 
-> [官网文档](https://cn.vuejs.org/)
+> [官网文档](https://cn.vuejs.org/)  
+> [vueuse](https://vueuse.org/)
 
 ## VUE3.0 面试题学习文档
 
