@@ -56,7 +56,18 @@ function sayHi(): void {
 
 ## interface 和 type 的区别
 
-[参考](https://www.jianshu.com/p/30325ff0b058)
+1. type 声明的对象类型自带索引签名，而 interface 必须声明索引类型
+2. type 可以为基本类型、联合类型或元祖类型定义别名，而接口不行
+3. type 通过 & 交叉运算符来扩展，interface 通过 extends 关键字来扩展
+4. interface 会创建新的类型名，type 只是创建类型别名，并没有新创建类型
+5. 同名接口会自动合并，而类型别名不会
+
+## interface 和 type 的相同点
+
+1. 都可以用来描述对象或函数
+2. 都支持扩展
+
+[参考:interface 和 type](https://www.jianshu.com/p/30325ff0b058)
 
 # 学习文档
 
@@ -65,15 +76,3 @@ function sayHi(): void {
 > [TypeScript 在线运行](https://c.runoob.com/compile/5577/)
 
 > [TypeScript 在线编译](https://www.typescriptlang.org/play?#code/DYUwLgBMCWDOYC4IFcB2BrVB7A7qg2gLoQC8E+AjADQQBMNAzDQOQPOEDcQA)
-
-```
-
-```
-
-```
-
-```
-
-```
-
-```

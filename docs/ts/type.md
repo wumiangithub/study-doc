@@ -151,3 +151,46 @@ HTMLTableRowElement;
 映射类型  Readonly
 条件类型
 ```
+
+## 元组类型 Tuple
+
+**当数组中每个元素的类型不一样的时候，就可以定义一个元组类型**
+
+```js
+// Declare a tuple type
+let x: [string, number];
+// Initialize it
+x = ["hello", 10]; // OK
+// Initialize it incorrectly
+x = [10, "hello"]; // Error
+```
+
+## Partial
+
+**注意：Partial 代表部分的，意思就是 interface 中的属性哪怕是没有?的也可以不传**
+
+## keyof 类型操作符
+
+[参考](https://juejin.cn/post/7032974613608923167)
+
+**keyof 操作符可以用于获取某种类型的所有键，其返回类型是联合类型**
+
+```js
+interface Person {
+  name: string;
+  age: number;
+  location: string;
+}
+
+type K1 = keyof Person; // "name" | "age" | "location"
+type K2 = keyof Person[];  // number | "length" | "push" | "concat" | ...
+type K3 = keyof { [x: string]: Person };  // string | number
+```
+
+**常用的工具方法都是通过 type 实现的**
+
+```js
+type Partial<T> = {
+  [P in keyof T]?: T[P]
+}
+```

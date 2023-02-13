@@ -97,6 +97,7 @@ module.exports = {
             ["mianshi", "面试题"],
             ["mianshi_lilun", "面试题-理论"],
             ["mianshi_xingneng", "面试题-性能优化"],
+            ["safe", "网络安全"],
             ["css", "css"],
             ["less", "less"],
             ["sass", "sass"],

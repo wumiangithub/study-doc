@@ -2,6 +2,21 @@
 
 ## js 深拷贝浅拷贝有哪几种方式?
 
+- 使用递归的方式实现深拷贝
+- 通过 jQuery 的 extend 方法实现深拷贝
+
+  ```js
+  var array = [1, 2, 3, 4];
+  var newArray = $.extend(true, [], array);
+  ```
+
+- JSON.stringify
+  有四大缺陷  
+  1. 对象中有时间类型的时候，序列化之后会变成字符串类型。
+  2. 对象中有 undefined 和 Function 类型数据的时候，序列化之后会直接丢失。
+  3. 对象中有 NaN、Infinity 和-Infinity 的时候，序列化之后会显示 null。
+  4. 对象循环引用的时候，会直接报错。
+
 ## 判断数组的几种方式
 
 ```

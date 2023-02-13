@@ -39,16 +39,84 @@ module.exports.getMax = getMax;
 <view> {{m1.getMax(array)}} </view>
 ```
 
+[参考:WXS](https://blog.csdn.net/m0_61490399/article/details/127132767)
+
 ### 注意
 
 - WXS 与 JavaScript 是不同的语言，有自己的语法，并不和 JavaScript 一致。
 
-## 小程序的主包和分包
+## 小程序的主包&分包&独立分包&分包异步化
 
-- 加载分包会加载主包吗？
+- 加载分包会加载主包吗？  
+  答：会的，普通分包会，但是独立分包不会。
 
 - 主包最大是多少？
 
-[参考](https://blog.csdn.net/m0_61490399/article/details/127132767)
+  - 整个小程序所有分包大小不超过 20M
+  - 单个分包/主包大小不能超过 2M
+
+- 独立分包  
+  开发者通过在 app.json 的**subpackages**字段中对应的分包配置项中定义**independent**字段声明对应分包为独立分包。一个小程序中可以有多个独立分包
+
+- 分包预下载  
+  开发者可以通过配置，在进入小程序某个页面时，由框架自动预下载可能需要的分包，提升进入后续分包页面时的启动速度。对于独立分包，也可以预下载主包  
+  同一个分包中的页面享有共同的预下载大小限额 2M，限额会在工具中打包时校验。  
+  通过 **preloadRule** 去配置分包预下载
+
+- 分包异步化  
+   默认情况，分包不能使用其他分包的资源，只可以会用主包和分包内的资源，但是分包异步化解决了这个问题。  
+   **1、跨分包自定义组件引用: 通过占位符实现**
+
+  ```js
+  // subPackageA/pages/index.json
+  {
+  "usingComponents": {
+    "button": "../../commonPackage/components/button",
+    "list": "../../subPackageB/components/full-list",
+    "simple-list": "../components/simple-list"
+  },
+  "componentPlaceholder": {
+    "button": "view",
+    "list": "simple-list"
+  }
+  }
+
+  ```
+
+  **2、跨分包 JS 代码引用: 通过异步函数实现**
+
+  ```js
+  // subPackageA/index.js
+  // 使用回调函数风格的调用
+  require("../subPackageB/utils.js", (utils) => {
+    console.log(utils.whoami); // Wechat MiniProgram
+  }, ({ mod, errMsg }) => {
+    console.error(`path: ${mod}, ${errMsg}`);
+  });
+  // 或者使用 Promise 风格的调用
+  require
+    .async("../commonPackage/index.js")
+    .then((pkg) => {
+      pkg.getPackageName(); // 'common'
+    })
+    .catch(({ mod, errMsg }) => {
+      console.error(`path: ${mod}, ${errMsg}`);
+    });
+  ```
+
+[参考：分包](https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages.html)
+
+## 微信小程序中页面栈最多十层
+
+以前是 5 层，后面改成 10 层
+首先微信小程序的跳转方法有
+
+1. wx.navigateTo(Object object) 保留当前页面，跳转到应用内的某个页面。但是不能跳到 tabbar 页面。
+2. wx.navigateBack(Object object) 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
+3. wx.redirectTo(Object object) 关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
+
+通过 getCurrentPages 获取当前页面栈，到十层的时候可以用 redirectTo 代替 navigateTo
 
 ## 微信小程序学习文档
+
+[微信小程序官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/)
