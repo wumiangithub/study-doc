@@ -99,6 +99,7 @@ module.exports = {
             ["mianshi", "面试题"],
             ["mianshi1", "面试题-1"],
             ["mianshi_lilun", "面试题-理论"],
+            ["mianshi_lilun1", "面试题-理论-1"],
             ["mianshi_xingneng", "面试题-性能优化"],
             ["es6", "es6"],
             ["safe", "网络安全"],

@@ -46,6 +46,30 @@
 
 > [html 页面渲染过程](https://www.cnblogs.com/bear-blogs/p/9903936.html)
 
+## js 的冒泡和捕获事件
+
+**所有事件的顺序是：其他元素捕获阶段事件 -> 本元素代码顺序事件 -> 其他元素冒泡阶段事件**
+
+### 事件冒泡
+
+从里到外触发  
+click 事件默认是事件冒泡
+
+### 事件捕获
+
+从外到里触发
+
+### addEventListener
+
+通过 EventTarget.addEventListener() 来给元素绑定事件。
+
+1. 第一个参数是事件的名称（如 ‘click’ ）。
+2. 第二个参数是触发对应事件执行的回调函数。
+3. 第三个参数是个布尔值，定义了元素邦定事件是在冒泡阶段还是捕获阶段执行:
+
+当值为 false 时，事件在冒泡阶段执行，false 为默认值。  
+当值为 true 时，事件在捕获阶段执行
+
 ## JS 浏览器事件循环机制
 
 ### 进程、线程
@@ -75,10 +99,6 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 
 除了广义的同步任务和异步任务，JavaScript 单线程中的任务可以细分为宏任务和微任务。
 
-macro-task 包括：script(整体代码), setTimeout, setInterval, setImmediate, I/O, UI rendering, requestAnimationFrame 。
-
-micro-task 包括：process.nextTick, Promises, Object.observe, MutationObserver。
-
 7. **同步任务异步任务 Event Loop**  
    调用栈中的同步任务都执行完毕，栈内被清空了，就代表主线程空闲了，这个时候就会去任务队列中按照顺序读取一个任务放入到栈中执行。每次栈内被清空，都会去读取任务队列有没有任务，有就读取执行，一直循环读取-执行的操作，就形成了事件循环。
 
@@ -92,6 +112,12 @@ micro-task 包括：process.nextTick, Promises, Object.observe, MutationObserver
 定时器会开启一条定时器触发线程来触发计时，定时器会在等待了指定的时间后将事件放入到任务队列中等待读取到主线程执行。
 
 定时器指定的延时毫秒数其实并不准确，因为定时器只是在到了指定的时间时将事件放入到任务队列中，必须要等到同步的任务和现有的任务队列中的事件全部执行完成之后，才会去读取定时器的事件到主线程执行，中间可能会存在耗时比较久的任务，那么就不可能保证在指定的时间执行。
+
+## 宏任务微任务包括
+
+**宏任务 包括**：script(整体代码), setTimeout, setInterval, requestAnimationFrame, I/O, UI rendering, UI 交互事件, postMessage, MessageChannel, setImmediate(Node.js 环境) 。
+
+**微任务 包括**：Promises, async/await, Object.observe, process.nextTick, MutationObserver。
 
 > [JS 浏览器事件循环机制](https://www.cnblogs.com/yqx0605xi/p/9267827.html)
 

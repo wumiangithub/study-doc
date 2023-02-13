@@ -279,6 +279,20 @@ function ThemedButton() {
 
 `包裹组件提升性能`
 
+## react 事件机制
+
+```
+React 有自身的一套事件系统，
+叫作 SyntheticEvent。叫什么不重要，实现上，
+React的事件并没有绑定到具体的dom节点上，而是绑定在了document上，然后由统一的事件监听器去监听事件的触发
+其实就是通过在 document 上注册事件代理了组件树中所有的事件，并且它监听的是 document 冒泡阶段。
+```
+
+```
+事件最开始从原生 DOM 按钮一路冒泡到 body，body 的事件处理器执行，输出 body。
+注意此时流程还没进入 React。为什么？因为 React 监听的是 document 上的事件。
+```
+
 ## 学习文档
 
 > [官网文档](https://zh-hans.reactjs.org/)
