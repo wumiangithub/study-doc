@@ -38,7 +38,15 @@
 4.  string
 5.  number
 6.  boolean
-7.  symbol **es6 新增 表示唯一的值**
+7.  symbol  
+    **es6 新增 表示唯一的值**
+
+    ```js
+    let s = Symbol();
+
+    typeof s;
+    // "symbol"
+    ```
 
 ## 面向对象
 

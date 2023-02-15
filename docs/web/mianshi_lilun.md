@@ -97,12 +97,20 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 
 5.  **宏任务(macro-task)、微任务(micro-task)**
 
-除了广义的同步任务和异步任务，JavaScript 单线程中的任务可以细分为宏任务和微任务。
+- 当前调用栈中执行的代码成为宏任务
+- 当前（此次事件循环中）宏任务执行完，在下一个宏任务开始之前需要执行的任务,可以理解为回调事件,叫做微任务
 
-7. **同步任务异步任务 Event Loop**  
-   调用栈中的同步任务都执行完毕，栈内被清空了，就代表主线程空闲了，这个时候就会去任务队列中按照顺序读取一个任务放入到栈中执行。每次栈内被清空，都会去读取任务队列有没有任务，有就读取执行，一直循环读取-执行的操作，就形成了事件循环。
+6. **同步任务异步任务 Event Loop**
 
-8. **宏任务微任务 Event Loop**
+   1. 简单讲就是，js 事件分为同步任务和异步任务，
+
+   2. 同步任务都在主线程上执行，形成一个执行栈,
+
+   3. 异步任务执行完成后，放入任务队列,
+
+   4. 当执行栈中清空后，就会去任务队列中拿任务执行。
+
+7. **宏任务微任务 Event Loop**
 
 第一次事件循环中，JavaScript 引擎会把整个 script 代码当成一个宏任务执行，执行完成之后，再检测本次循环中是否寻在微任务，存在的话就依次从微任务的任务队列中读取执行完所有的微任务，再读取宏任务的任务队列中的任务执行，再执行所有的微任务，如此循环。JS 的执行顺序就是每次事件循环中的宏任务-微任务。  
 `执行一个宏任务(先执行同步代码)-->执行所有微任务-->UI render-->执行下一个宏任务-->执行所有微任务-->UI render-->.....`
@@ -120,6 +128,24 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 **微任务 包括**：Promises, async/await, Object.observe, process.nextTick, MutationObserver。
 
 > [JS 浏览器事件循环机制](https://www.cnblogs.com/yqx0605xi/p/9267827.html)
+
+## 单线程的 JavaScript 是怎么实现异步的?
+
+### JavaScript Runtime
+
+- 也就是 JavaScript 代码运行的地方
+
+- chrome 与 node 都是 JavaScript Runtime
+
+### JavaScript Runtime 主要包括 Js Engine 与 WebAPI 等内容
+
+- JavaScript 是在 Js Engine 中运行
+- JavaScript Runtime 也提供了 WebAPI 供 JS 代码调用
+
+### WebAPI 提供了网络请求，定时器，事件监听等多种能力
+
+JS Runtime 并不是单线程的，而是持有一个线程池，因此 WebAPI 中的代码是运行在其他线程的，自然也就提供了异步的能力  
+[参考](https://juejin.cn/post/7083286147920560158)
 
 ## HTTP 协议：http1.0 http1.1 http2.0 https
 

@@ -1,5 +1,22 @@
 # ES6
 
+## var let
+
+- var 命令会发生“变量提升”现象，即变量可以在声明之前使用，值为 undefined
+
+### 暂时性死区
+
+```js
+var tmp = 123;
+
+if (true) {
+  tmp = "abc"; // ReferenceError
+  let tmp;
+}
+```
+
+## 块级作用域
+
 ## Set 和 Map 数据结构
 
 ### Set

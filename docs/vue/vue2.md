@@ -24,4 +24,115 @@
 
 - unbind：只调用一次，指令与元素解绑时调用。
 
-> [vue2 官网](https://v2.cn.vuejs.org/)
+## SSR 服务端渲染
+
+服务端渲染只支持 beforCreate 和 created 两个钩子函数  
+ssr 不支持 beforeMount 、mounted 钩子函数，所以 ajax 请求放在 created 中有助于一致性；
+
+## Vue 的父组件和子组件生命周期钩子函数执行顺序？
+
+```
+Vue 的父组件和子组件生命周期钩子函数执行顺序可以归类为以下 4 部分：
+
+
+加载渲染过程
+父 beforeCreate -> 父 created -> 父 beforeMount -> 子 beforeCreate -> 子 created -> 子 beforeMount -> 子 mounted -> 父 mounted
+
+
+子组件更新过程
+父 beforeUpdate -> 子 beforeUpdate -> 子 updated -> 父 updated
+
+
+父组件更新过程
+父 beforeUpdate -> 父 updated
+
+
+销毁过程
+父 beforeDestroy -> 子 beforeDestroy -> 子 destroyed -> 父 destroyed
+
+
+```
+
+## 父组件可以监听到子组件的生命周期吗？
+
+### 方式一：子组件通过$emit 触发
+
+```js
+// Parent.vue
+<Child @mounted="doSomething"/>
+
+// Child.vue
+mounted() {
+  this.$emit("mounted");
+}
+```
+
+### 方式二：通过@hook 监听。
+
+```js
+//  Parent.vue
+<Child @hook:mounted="doSomething" ></Child>
+
+doSomething() {
+   console.log('父组件监听到 mounted 钩子函数 ...');
+},
+
+//  Child.vue
+mounted(){
+   console.log('子组件触发 mounted 钩子函数 ...');
+},
+
+// 以上输出顺序为：
+// 子组件触发 mounted 钩子函数 ...
+// 父组件监听到 mounted 钩子函数 ...
+```
+
+当然 @hook 方法不仅仅是可以监听 mounted，其它的生命周期事件，例如：created，updated 等都可以监听。
+
+## v-model 的原理？
+
+v-model 本质上不过是语法糖
+
+```js
+<input v-model='something'>
+
+相当于
+
+<input v-bind:value="something" v-on:input="something = $event.target.value">
+```
+
+## vue-router 路由模式有几种？
+
+**3 种**
+
+其中，3 种路由模式的说明如下：
+
+- hash: 使用 URL hash 值来作路由。支持所有浏览器，包括不支持 HTML5 History Api 的浏览器；
+
+- history : 依赖 HTML5 History API 和服务器配置。具体可以查看 HTML5 History 模式；
+
+- abstract : 支持所有 JavaScript 运行环境，如 Node.js 服务器端。如果发现没有浏览器的 API，路由会自动强制进入这个模式.
+
+## 能说下 vue-router 中常用的 hash 和 history 路由模式实现原理吗？
+
+### hash
+
+- 基于 location.hash 来实现的
+- location.hash 的值就是 URL 中 # 后面的内容
+- 我们可以使用 hashchange 事件来监听 hash 值的变化，从而对页面进行跳转（渲染）。
+
+### history
+
+- pushState 和 repalceState 两个 API 来操作实现 URL 的变化 ；
+- 我们可以使用 popstate 事件来监听 url 的变化，从而对页面进行跳转（渲染）；
+
+## Vue 怎么用 vm.$set() 解决对象新增属性不能响应的问题 ？
+
+我们阅读以上源码可知，vm.$set 的实现原理是：
+
+如果目标是数组，直接使用数组的 splice 方法触发相应式；
+
+如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
+
+> [vue2 官网](https://v2.cn.vuejs.org/)  
+> [面试题](https://juejin.cn/post/6844903918753808398)

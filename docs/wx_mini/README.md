@@ -117,6 +117,12 @@ module.exports.getMax = getMax;
 
 通过 getCurrentPages 获取当前页面栈，到十层的时候可以用 redirectTo 代替 navigateTo
 
+## 怎么突破每个包只有 2M 的大小限制
+
+**使用 webview**
+
+## 小程序和 webview 怎么通信
+
 ## 微信小程序学习文档
 
 [微信小程序官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/)

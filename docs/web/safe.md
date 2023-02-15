@@ -80,5 +80,15 @@ if(top.location!=self.location){
 
 对前端传递的信息进行层层校验，不直接使用。
 
+## ddos 攻击
+
+### 描述
+
+ip 攻击 让你的服务器崩溃
+
+### 解决方案
+
+使用高防 cdn 可以说是拒绝 ddos 攻击最有效的方式，给网站套高防 cdn 可以隐藏源站的 ip，可以为网站内容进行加速，最最最主要的是高防 cdn 防御非常的墙，是 ddos 攻击最好的防御手段。
+
 [参考 1- 安全常识](https://zhuanlan.zhihu.com/p/147907139)  
 [参考 2- 安全大全](https://www.jianshu.com/p/544bb4bccd82)

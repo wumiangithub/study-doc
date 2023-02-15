@@ -132,8 +132,68 @@ setup (props, context) {
 
 ## ref、reactive
 
-- ref 可以为所有数据类型添加响应式状态
-- reactive 用于为对象或数组添加响应式状态
+reactive 与 ref 区别
+
+1. 从定义数据方面：
+
+- ref 通常用来定义基本类型数据
+- reactive 用来定义：对象（或者数组）类型数据
+- ref 也可以用来定义对象或者数组类型的数据，内部会通过 reactive 转为代理对象
+
+2. 从原理方面：
+
+- ref 通过 Object.defineProperty()的 get 和 set 实现数据代理。
+- reactive 使用 Proxy 实现数据代理，并且通过 Reflect 操作源对象内部的数据。
+
+3. 从使用方面：
+
+- ref 操作数据需要.value，template 模板中不需要。
+- reactive 都不需要.value
+  注意 reactive 当访问到某个响应式数组或 Map 这样的原生集合类型中的 ref 元素时，不会执行 ref 的解包：需要.value
+
+```js
+export default defineComponent({
+  setup(props) {
+    const count = ref(0);
+    console.log(count.value); // 0
+
+    const obj = reactive({ count: 0 });
+    obj.count++;
+  },
+});
+```
+
+### ref 的解包：
+
+```js
+const count = ref(1);
+const obj = reactive({ count });
+
+// ref 会被解包
+console.log(obj.count === count.value); // true
+
+// 会更新 `obj.count`
+count.value++;
+console.log(count.value); // 2
+console.log(obj.count); // 2
+
+// 也会更新 `count` ref
+obj.count++;
+console.log(obj.count); // 3
+console.log(count.value); // 3
+```
+
+### 注意 reactive 当访问到某个响应式数组或 Map 这样的原生集合类型中的 ref 元素时，不会执行 ref 的解包：
+
+```js
+const books = reactive([ref("Vue 3 Guide")]);
+// 这里需要 .value
+console.log(books[0].value);
+
+const map = reactive(new Map([["count", ref(0)]]));
+// 这里需要 .value
+console.log(map.get("count").value);
+```
 
 > [ref、reactive、toRef、toRefs 的区别](https://blog.csdn.net/u010059669/article/details/112287552)
 
@@ -322,6 +382,7 @@ stop();
 从那时起，我们就倾向于同时支持 Vue 2 和 Vue 3，并且不强制要求开发者使用组合式 API`  
 **Pinia 是作为 Vuex 5 的雏形而创建的**  
 **Vuex 4.0 还提供对于 Vue 3 的支持，其 API 与 3.x 大致相同**
+**Pinia 配套有个插件 pinia-plugin-persist 进行数据持久化，否则一刷新就会造成数据丢失**
 
 ### storeToRefs
 
@@ -425,11 +486,11 @@ const myDirective = {
 };
 ```
 
+## EventBus 与 mitt 区别？
+
+vue3 移除了 EventBus ，如果需要使用相同功能可以使用辅助库 mitt，同样具有 on、emit、off 方法，而且压缩后仅有 200 bytes
+
 ## VUE3.0 学习文档
 
 > [官网文档](https://cn.vuejs.org/)  
 > [vueuse](https://vueuse.org/)
-
-## VUE3.0 面试题学习文档
-
-> [参考 1](https://juejin.cn/post/7139921537896808479)
