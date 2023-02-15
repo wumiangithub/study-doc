@@ -11,7 +11,7 @@
   ```
 
 - JSON.stringify
-  有四大缺陷  
+  有四大缺陷
   1. 对象中有时间类型的时候，序列化之后会变成字符串类型。
   2. 对象中有 undefined 和 Function 类型数据的时候，序列化之后会直接丢失。
   3. 对象中有 NaN、Infinity 和-Infinity 的时候，序列化之后会显示 null。
@@ -249,7 +249,11 @@ Array.prototype.slice.call(arguments);
 
 ## 封装 fetch api 要求超时报错，并且取消执行的 promise
 
-## js 六种继承方式介绍及优缺点
+## js 七种继承方式介绍及优缺点
+
+### class 继承
+
+Class 可以通过 extends 关键字实现继承
 
 ### 原型链继承
 
@@ -534,3 +538,19 @@ var o1 = new Object();
 o1.[[Prototype]] = Base.prototype;
 Base.call(o1);
 ```
+
+## CommonJS, AMD, CMD,ES6 模块化是什么及区别
+
+**现在一般只有 CommonJS 和 ES6 模块化了**
+
+- CommonJS 是服务器端 js 模块化的规范，NodeJS 是这种规范的实现。
+  - exports module.exports require。
+- AMD(异步模块定义)和 CMD(通用模块定义)都是浏览器端 js 模块化的规范。
+
+  - 1.AMD 规范 => 只需要引入 requireJs 库即可在浏览器直接使用
+
+  - 2.CMD 规范 => 只需要引入 seaJs 库即可在浏览器直接使用
+
+- ES6 模块化采用静态编译，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西
+
+[参考](https://www.cnblogs.com/beyonds/p/8992619.html)

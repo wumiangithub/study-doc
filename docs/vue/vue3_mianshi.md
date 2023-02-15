@@ -31,7 +31,7 @@ scrtpt setup 是 vue3 的语法糖，简化了组合式 API 的写法，并且�
 <script lang="ts" setup name="demo"></script>
 ```
 
-## VUE3.0 面试题学习文档
+## vue3 面试题学习文档
 
 > [参考 1](https://juejin.cn/post/7139921537896808479)  
 > [参考 2](https://juejin.cn/post/7139921537896808479#heading-25)
