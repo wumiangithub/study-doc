@@ -40,3 +40,24 @@ Vite 将会使用 esbuild 预构建依赖。esbuild 使用 Go 编写，并且比
 - Vite 首次启动加载慢。因为模块以 ES6 原生的模块加载机制的方式被浏览器加载，没有对代码进行打包跟压缩处理，因此请求数会更多，下载文件也会更大。
 
 Vite 是牺牲了页面首次加载时间来加快项目启动时间，但是仅仅是首次！Vite 的第二次启动是会有缓存的。
+
+## loader 和 plugin 的区别是什么
+
+- loader: webpack 原生是只能解析 js 文件，如果想将其他文件也打包的话，就会用到 loader。
+- plugin 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果
+
+常见的 loader 和 plugin 插件
+
+Loader:
+
+1. 样式：style-loader、css-loader、less-loader、sass-loader 等
+2. 文件：raw-loader、file-loader 、url-loader 等
+
+Plugin:
+
+1. webpack 内置 UglifyJsPlugin，压缩和混淆代码,通过 UglifyES 压缩 ES6 代码。
+2. webpack 内置 CommonsChunkPlugin，提取公共代码,提高打包效率，将第三方库和业务代码分开打包
+3. ProvidePlugin：自动加载模块，代替 require 和 import
+4. html-webpack-plugin 可以根据模板自动生成 html 代码，并自动引用 css 和 js 文件
+5. extract-text-webpack-plugin 将 js 文件中引用的样式单独抽离成 css 文件
+6. define-plugin 定义环境变量

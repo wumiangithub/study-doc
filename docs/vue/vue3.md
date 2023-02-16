@@ -35,11 +35,33 @@ setup(props) {
 
 **context：** 也称之为 SetupContext，是 setup 函数的上下文对象，它主要由四个属性
 
-- attrs：所有的非 props 的的属性
-- slots：父组件传递过来的插槽，在以渲染函数返回时会有作用
+- attrs：透传 Attributes（非响应式的对象，等价于 $attrs）,也就是除了 props 中的其他属性
+- slots：父组件传递过来的插槽，在以渲染函数返回时会有作用, （非响应式的对象，等价于 $slots）
 - emit：当组件内部需要发出事件时会用到 emit
   主要是因为 setup 函数中不能访问 this，所以无法通过 this.$emit 发出事件
-- expose：暴露公共属性（函数）
+- expose：当父组件通过模板引用 ref 访问该组件的实例时，将仅能访问 expose 函数暴露出的内容, 暴露公共属性（函数）
+
+### $slots
+
+```js
+export default {
+  props: ["message"],
+  render() {
+    return [
+      // <div><slot /></div>
+      h("div", this.$slots.default()),
+
+      // <div><slot name="footer" :text="message" /></div>
+      h(
+        "div",
+        this.$slots.footer({
+          text: this.message,
+        })
+      ),
+    ];
+  },
+};
+```
 
 ### setup 中怎么获取 options api 中 data 中的数据
 
