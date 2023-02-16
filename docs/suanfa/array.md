@@ -74,4 +74,6 @@ arr1.sort((a, b) => a.localeCompare(b));
 
 ### 选择排序、冒泡排序、插入排序和快速排序
 
+也被问道了，需要去看
+
 [数组其他排序：参考](https://blog.csdn.net/weixin_55992854/article/details/116849789)

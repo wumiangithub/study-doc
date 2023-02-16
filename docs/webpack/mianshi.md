@@ -61,3 +61,15 @@ Plugin:
 4. html-webpack-plugin 可以根据模板自动生成 html 代码，并自动引用 css 和 js 文件
 5. extract-text-webpack-plugin 将 js 文件中引用的样式单独抽离成 css 文件
 6. define-plugin 定义环境变量
+
+## webpack 输出格式 umd & esm & cjs
+
+- esm 是“EcmaScript module”的缩写。 import
+
+- cjs 是“CommonJS module”的缩写。 require
+
+- umd 是“Universal Module Definition”的缩写 通用=>适用于所有模块引入方式，包括 cdn
+
+- amd 淘汰， 引入 requireJs
+
+- cmd 淘汰，引入 seaJs
