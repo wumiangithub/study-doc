@@ -110,6 +110,7 @@ module.exports = {
             ["css", "css"],
             ["less", "less"],
             ["sass", "sass"],
+            ["regexp", "正则"],
             ["canvas", "canvas"],
             ["webGL", "webGL"],
             ["threejs", "threejs"],
