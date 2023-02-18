@@ -39,7 +39,172 @@ console.log(fn(6)); //8
 
 ## js 实现 new
 
+```js
+function Animal(name, type) {
+  this.name = name;
+  this.type = type;
+}
+let Tom = new Animal("Tom", "Cat");
+
+console.log(Tom); //Animal {name: 'Tom', type: 'Cat'}
+```
+
+### 方式一: 推荐
+
+```js
+function _new(constructor, ...args) {
+  // 1.构造函数类型合法判断
+  if (typeof constructor !== "function") {
+    throw new Error("constructor must be a function");
+  }
+  // 2.新建空对象实例
+  let obj = new Object();
+  // 将构造函数的原型绑定到新创的对象实例上
+  obj.__proto__ = Object.create(constructor.prototype);
+  // 3.调用构造函数,并将this指向创建的空对象obj, 从而继承构造函数
+  let res = constructor.apply(obj, args);
+  let isObject = typeof res === "object" && res !== null;
+  let isFunction = typeof res === "function";
+  // 4.如果有返回值且返回值是对象类型，那么就将它作为返回值，否则就返回之前新建的对象
+  return isObject || isFunction ? res : obj;
+}
+
+let Tom = _new(Animal, "Tom", "Cat");
+console.log(Tom); //Animal {name: 'Tom', type: 'Cat'}
+```
+
+### 方式二
+
+```js
+function _new1() {
+  //1、通过参数shift方法取到Constructor
+  let Constructor = Array.prototype.shift.call(arguments);
+  ///2、在内存中定义一个新对象
+  let obj = {};
+  obj._proto_ = Constructor.prototype; // 新对象的_proto_指针指向构造函数的prototype属性
+  // 3、this指向新对象，并执行构造函数代码
+  let res = Constructor.apply(obj, arguments);
+  //4、如果有返回值且返回值是对象类型，那么就将它作为返回值，否则就返回之前新建的对象
+  return typeof res === "object" ? res : obj;
+}
+
+let Tom = _new1(Animal, "Tom", "Cat");
+console.log(Tom); //Window {name: 'Tom', type: 'Cat'}
+```
+
+## 闭包
+
+**闭包就是函数嵌套函数, 一个函数访问另一个函数的作用域内的变量成为闭包**
+
+```js
+function a() {
+  var n = 0;
+  console.log(this); //指代a这个对象
+  this.b = function () {
+    n++;
+    console.log(n);
+  };
+}
+var c = new a();
+c.b(); //控制台输出1
+c.b(); //控制台输出2
+```
+
 ## 函数颗粒化
+
+```js
+function add(a) {
+  return function (b) {
+    return a + b;
+  };
+}
+add(1)(2); //3
+```
+
+```js
+function addCurry() {
+  let arr = [...arguments];
+  let fn = function () {
+    if (arguments.length === 0) {
+      return arr.reduce((a, b) => a + b);
+    } else {
+      arr.push(...arguments);
+      return fn;
+    }
+  };
+  return fn;
+}
+
+console.log(addCurry(1)(2)(3)()); //6
+console.log(addCurry(1, 2)(2)(3)()); //8
+```
+
+[参考](https://juejin.cn/post/7147454421822078984)
+
+## 防抖
+
+```js
+// 防抖：频繁操作中只触发最后一次操作
+function debounce(fn, delay) {
+  delay = delay || 200;
+  let timer = null;
+  return function () {
+    let arg = arguments;
+    // 每次操作时，清除上次的定时器
+    clearTimeout(timer);
+    timer = null;
+    // 定义新的定时器，一段时间后进行操作
+    timer = setTimeout(function () {
+      fn.apply(this, arg);
+    }, delay);
+  };
+}
+
+var count = 0;
+window.onscroll = debounce(function (e) {
+  console.log(e.type, ++count); // scroll
+}, 500);
+```
+
+## 节流
+
+```js
+// 函数节流，频繁操作中间隔 delay 的时间才处理一次
+function throttle(fn, delay) {
+  delay = delay || 200;
+  let timer = null;
+  // 每次滚动初始的标识
+  let timestamp = 0;
+  return function () {
+    let arg = arguments;
+    let now = Date.now();
+    // 设置开始时间
+    if (timestamp === 0) {
+      timestamp = now;
+    }
+    clearTimeout(timer);
+    timer = null;
+    // 已经到了delay的一段时间，进行处理
+    if (now - timestamp >= delay) {
+      fn.apply(this, arg);
+      timestamp = now;
+    }
+    // 添加定时器，确保最后一次的操作也能处理
+    else {
+      timer = setTimeout(function () {
+        fn.apply(this, arg);
+        // 恢复标识
+        timestamp = 0;
+      }, delay);
+    }
+  };
+}
+
+var count = 0;
+window.onscroll = throttle(function (e) {
+  console.log(e.type, ++count); // scroll
+}, 500);
+```
 
 ## 文档
 
