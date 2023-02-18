@@ -37,6 +37,10 @@ console.log(fn(6)); //8
 
 [递归太多怎么优化:参考](https://blog.csdn.net/Mutonix6/article/details/115910658)
 
+## js 实现 new
+
+## 函数颗粒化
+
 ## 文档
 
 [参考](https://blog.csdn.net/Better_Xing/article/details/114937915)

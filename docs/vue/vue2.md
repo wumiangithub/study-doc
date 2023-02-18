@@ -134,5 +134,11 @@ v-model 本质上不过是语法糖
 
 如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 defineReactive 方法进行响应式处理（ defineReactive 方法就是 Vue 在初始化对象时，给对象属性采用 Object.defineProperty 动态添加 getter 和 setter 的功能所调用的方法）
 
+## watch 和 computed 的原理
+
+[参考](https://juejin.cn/post/6844903926819454983)
+
+## 文档
+
 > [vue2 官网](https://v2.cn.vuejs.org/)  
 > [面试题](https://juejin.cn/post/6844903918753808398)

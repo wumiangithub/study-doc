@@ -28,12 +28,25 @@ let myStr: unknown = myArray[0];
 
 ## TypeScript 中的 implements 和 extends
 
-### implements实现
+### implements 实现
+
 ```js
 
 ```
 
-### extends继承
+### extends 继承
+
 ```js
 
+```
+
+## 字符串索引签名
+
+```js
+interface SquareConfig {
+  color?: string;
+  width?: number;
+
+  [index: string]: any; //字符串索引校验   当一个对象当中不知道有那些属性的时候
+}
 ```
