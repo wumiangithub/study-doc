@@ -2,7 +2,7 @@
 
 ## 设计模式
 
-### 单例模式
+[参考：菜鸟](https://www.runoob.com/design-pattern/design-pattern-tutorial.html)
 
 - 单例模式 ：  
    一个类(单例类)只能有一个实例，并且这个实例可以供所有其他对象使用。比如打印机，可能很多台电脑同时连接的同一台打印机。
@@ -16,8 +16,12 @@
   虽然这样做，可能多做一些工作，但会给你系统带来更大的可扩展性和尽量少的修改量。
 
 - 观察者模式  
-  当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。
-  观察者模式属于行为型模式。
+  定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。  
+  **观察者模式和发布订阅模式很相似，区别就是 发布订阅者模式会有一个调度中心去互相联系，而观察者模式 只有观察者和被观察者有直系的联系**
+
+- 发布订阅模式  
+  定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，通知订阅中心一条消息，订阅中心收到消息后在通知订阅了这条消息的对象  
+  **观察者模式和发布订阅模式很相似，区别就是 发布订阅者模式会有一个调度中心去互相联系，而观察者模式 只有观察者和被观察者有直系的联系**
 
 - 策略模式
 
@@ -39,3 +43,48 @@
 
 - 一个进程可以有很多线程
 - 协程（coroutine）和纤程（fiber）的主要区别点在于：调度； 本质上没有区别,一般将程序语言提供的纤程支持称为协程。
+
+## location
+
+http://localhost:1234/web/zhishi.html#a
+
+| 属性     | 结果                                    | 注释                                |
+| :------- | :-------------------------------------- | :---------------------------------- |
+| protocol | http                                    | 协议                                |
+| hostname | localhost                               | 域名                                |
+| port     | 1234                                    | 端口                                |
+| pathname | /web/zhishi.html                        | 页面路径                            |
+| hash     | #a                                      | #后面的内容,包括#在内               |
+| host     | localhost:1234                          | 域名 + 端口                         |
+| origin   | http://localhost:1234                   | 协议+ 域名 + 端口                   |
+| href     | http://localhost:1234/web/zhishi.html#a | 协议+ 域名 + 端口 + 页面路径 + hash |
+
+https://www.qibi.work/project/152/menu/task
+
+| 属性     | 结果                                        | 注释                                |
+| :------- | :------------------------------------------ | :---------------------------------- |
+| protocol | https                                       | 协议                                |
+| hostname | www.qibi.work                               | 域名                                |
+| port     | ""                                          | 端口                                |
+| pathname | /project/152/menu/task                      | 页面路径                            |
+| hash     | ""                                          | #后面的内容,包括#在内               |
+| host     | www.qibi.work                               | 域名 + 端口                         |
+| origin   | https://www.qibi.work                       | 协议+ 域名 + 端口                   |
+| href     | https://www.qibi.work/project/152/menu/task | 协议+ 域名 + 端口 + 页面路径 + hash |
+
+## 浏览器同源策略
+
+<font color="#3eaf7c">协议、一级域名、二级域名、端口</font> 都相同才同源
+
+下表给出了与 URL http://store.company.com/dir/page.html 的源进行对比的示例：
+| URL | 结果 | 原因 |
+| :----- | :----- | :----- |
+| http://store.company.com/dir2/other.html | 同源 | 只有路径不同 |
+| https://store.company.com/secure.html | 失败 |协议不同 |
+| http://store.company.com:81/dir/etc.html | 失败 | 端口不同 ( http:// 默认端口是 80) |
+| http://news.company.com/dir/other.html | 失败 | 一级域名不同 |
+| http://m.store.company.com/dir/other.html | 失败 | 二级域名不同 |
+
+为了能让不同源中文档进行交流，可以使用 **window.postMessage**。
+
+[参考:mozilla](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy)

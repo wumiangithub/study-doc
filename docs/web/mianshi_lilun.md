@@ -102,13 +102,15 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 
 6. **同步任务异步任务 Event Loop**
 
-   1. 简单讲就是，js 事件分为同步任务和异步任务，
+   **简单讲就是，js 事件分为同步任务和异步任务，**
 
-   2. 同步任务都在主线程上执行，形成一个执行栈,
+   1. 同步任务都在主线程上执行，形成一个执行栈,
 
-   3. 异步任务执行完成后，放入任务队列,
+   2. 异步任务执行完成后，放入任务队列,
 
-   4. 当执行栈中清空后，就会去任务队列中拿任务执行。
+   3. 当执行栈中清空后，就会去任务队列中拿任务放入执行栈中执行。
+
+   4. 重复上面的 3 步
 
 7. **宏任务微任务 Event Loop**
 
@@ -128,6 +130,17 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 **微任务 包括**：Promises, async/await, Object.observe, process.nextTick, MutationObserver。
 
 > [JS 浏览器事件循环机制](https://www.cnblogs.com/yqx0605xi/p/9267827.html)
+
+## node 事件循环机制
+
+1. timers 阶段：这个阶段执行 timer（setTimeout、setInterval）的回调
+2. I/O callbacks 阶段：处理一些上一轮循环中的少数未执行的 I/O 回调
+3. idle, prepare 阶段：仅 node 内部使用
+4. poll 阶段：获取新的 I/O 事件, 适当的条件下 node 将阻塞在这里
+5. check 阶段：执行 setImmediate() 的回调
+6. close callbacks 阶段：执行 socket 的 close 事件回调
+
+[参考](https://www.muzhuangnet.com/show/51554.html)
 
 ## 单线程的 JavaScript 是怎么实现异步的?
 

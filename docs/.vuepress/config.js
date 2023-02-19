@@ -162,6 +162,7 @@ module.exports = {
           children: [
             ["", "其他"],
             ["keyword", "关键字概念"],
+            ["normal", "面试通用问题"],
           ],
         },
       ],
