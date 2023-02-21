@@ -552,3 +552,7 @@ Base.call(o1);
 - ES6 模块化采用静态编译，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西
 
 [参考](https://www.cnblogs.com/beyonds/p/8992619.html)
+
+## 面试题文档
+
+[参考](https://juejin.cn/post/6844903885488783374)

@@ -168,6 +168,8 @@ window.onscroll = debounce(function (e) {
 
 ## 节流
 
+### 写法一
+
 ```js
 // 函数节流，频繁操作中间隔 delay 的时间才处理一次
 function throttle(fn, delay) {
@@ -206,7 +208,53 @@ window.onscroll = throttle(function (e) {
 }, 500);
 ```
 
+### 写法二
+
+```js
+function throttle(fn) {
+  let canRun = true; // 通过闭包保存一个标记
+  return function () {
+    if (!canRun) return; // 在函数开头判断标记是否为true，不为true则return
+    canRun = false; // 立即设置为false
+    setTimeout(() => {
+      // 将外部传入的函数的执行放在setTimeout中
+      fn.apply(this, arguments);
+      // 最后在setTimeout执行完毕后再把标记设置为true(关键)表示可以执行下一次循环了。当定时器没有执行的时候标记永远是false，在开头被return掉
+      canRun = true;
+    }, 500);
+  };
+}
+function sayHi(e) {
+  console.log(e.target.innerWidth, e.target.innerHeight);
+}
+window.addEventListener("resize", throttle(sayHi));
+```
+
 ## 封装 fetch api 要求超时报错，并且取消执行的 promise
+
+## 堆、栈、队列之间的区别是？
+
+- 栈 (Stack)：就是一个桶，后放进去的先拿出来，它下面本来有的东西要等它出来之后才能出来。（后进先出）
+
+  - 栈：后进先出 如 js 调用栈
+
+- 堆 (Heap)：是在程序运行时，而不是在程序编译时，申请某个大小的内存空间。即动态分配内存，对其访问和对一般内存的访问没有区别。
+
+- 队列：只能在队头做删除操作,在队尾做插入操作.而栈只能在栈顶做插入和删除操作。（先进先出）
+
+### 不同场景下，堆与栈代表不同的含义
+
+#### （1）程序内存布局场景下，堆与栈表示两种内存管理方式；
+
+- 栈由操作系统自动分配释放
+- 堆由开发人员分配和释放， 若开发人员不释放，程序结束时由 OS 回收
+
+#### （2）数据结构场景下，堆与栈表示两种常用的数据结构。
+
+- 栈是一种运算受限的**线性表**，其限制是指只仅允许在表的一端进行插入和删除操作，（后进先出）
+- 堆是一种常用的树形结构，是一种特殊的**完全二叉树**，当且仅当满足所有节点的值总是不大于或不小于其父节点的值的完全二叉树被称之为堆。
+
+[堆、栈:参考](https://blog.csdn.net/m0_37145844/article/details/109321620)
 
 ## 文档
 

@@ -17,3 +17,5 @@ MVVM 框架实现了双向绑定，这样 ViewModel 的内容会实时展现在 
 1. 用 JavaScript 对象模拟真实 DOM 树，对真实 DOM 进行抽象；
 2. diff 算法 — 比较两棵虚拟 DOM 树的差异；
 3. pach 算法 — 将两个虚拟 DOM 对象的差异应用到真正的 DOM 树。
+
+## vue 和 react 的 diff 算法有什么区别

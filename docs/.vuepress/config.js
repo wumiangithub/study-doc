@@ -149,6 +149,8 @@ module.exports = {
             ["", "算法"],
             ["array", "数组"],
             ["jiami", "加密"],
+            ["yunsuan", "运算题"],
+            ["timu", "题目"],
           ],
         },
       ],

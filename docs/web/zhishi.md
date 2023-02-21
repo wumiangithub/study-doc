@@ -4,7 +4,8 @@
 
 ShadowDOM 最大的用处应该是隔离外部环境用于封装组件  
 我们可以轻松地封装一个组件然后可以跨项目共享这个组件。  
-样式也被封装，我们甚至可以不用写CSS 样式完全在我们的组件中，这样就防止开发人员随意修改样式
+样式也被封装，我们甚至可以不用写 CSS 样式完全在我们的组件中，这样就防止开发人员随意修改样式
+
 ```js
 // let shodowDOM = document.getElementById('shadow').attachShadow({mode: "closed"});
 let shodowDOM = shadow.attachShadow({ mode: "closed" }); //直接这样，不用getElementById居然也是可以的
@@ -24,6 +25,13 @@ console.log(document.getElementById("shadow").shadowRoot.firstChild);
 // 返回影子节点
 ```
 
-## BFF项目
+## BFF 项目
+
 BFF——服务于前端的后端(Back-end For Front-end)  
 如：graphql
+
+## 微服务
+
+### qiankun.js
+
+### wujie.js
