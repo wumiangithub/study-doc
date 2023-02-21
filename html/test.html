@@ -9,11 +9,15 @@
   <body>
     <div style="height: 300vh"></div>
     <script>
-      function a() {
-        var n = 0;
-      }
-
-      console.log(a.toString());
+      var obj = {
+        birth: 1993,
+        getAge: function () {
+          var b = this.birth; //1993
+          var fn = () => new Date().getFullYear() - this.birth; //this指向obj对象
+          return fn();
+        },
+      };
+      console.log(obj.getAge()); //动态计算出每年的年龄
     </script>
   </body>
 </html>

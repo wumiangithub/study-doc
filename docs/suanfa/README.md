@@ -206,6 +206,8 @@ window.onscroll = throttle(function (e) {
 }, 500);
 ```
 
+## 封装 fetch api 要求超时报错，并且取消执行的 promise
+
 ## 文档
 
-[参考](https://blog.csdn.net/Better_Xing/article/details/114937915)
+[前端面试常见算法: 参考](https://blog.csdn.net/Better_Xing/article/details/114937915)

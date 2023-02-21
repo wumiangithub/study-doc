@@ -247,8 +247,6 @@ Array.prototype.slice.call(arguments);
 
 [参考](https://www.cnblogs.com/pssp/p/5215621.html#1)
 
-## 封装 fetch api 要求超时报错，并且取消执行的 promise
-
 ## js 七种继承方式介绍及优缺点
 
 ### class 继承

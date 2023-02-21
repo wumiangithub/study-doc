@@ -56,8 +56,8 @@ function sayHi(): void {
 
 ## interface 和 type 的区别
 
-1. type 声明的对象类型自带索引签名，而 interface 必须声明索引类型
-2. type 可以为基本类型、联合类型或元祖类型定义别名，而接口不行
+1. type 可以为基本类型、联合类型或元祖类型定义别名，而接口不行
+2. type 声明的对象类型自带索引签名，而 interface 必须声明索引类型
 3. type 通过 & 交叉运算符来扩展，interface 通过 extends 关键字来扩展
 4. interface 会创建新的类型名，type 只是创建类型别名，并没有新创建类型
 5. 同名接口会自动合并，而类型别名不会

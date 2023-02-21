@@ -259,6 +259,8 @@ state.nested.bar++;
 
 ## toRef & toRefs
 
+### toRef
+
 - 基于响应式对象上的一个属性，创建一个对应的 ref  
   即使源属性当前不存在，toRef() 也会返回一个可用的 ref。这让它在处理可选 props 的时候格外实用，相比之下 toRefs 就不会为可选 props 创建对应的 refs
 
@@ -292,6 +294,34 @@ const props = defineProps(/_ ... _/);
 // 将 `props.foo` 转换为 ref，然后传入
 // 一个组合式函数
 useSomeFeature(toRef(props, "foo"));
+```
+
+### toRefs
+
+- 将一个响应式对象转换为一个普通对象，这个普通对象的每个属性都是指向源对象相应属性的 ref。每个单独的 ref 都是使用 toRef() 创建的。
+
+```js
+const state = reactive({
+  foo: 1,
+  bar: 2,
+});
+
+const stateAsRefs = toRefs(state);
+/*
+stateAsRefs 的类型：{
+  foo: Ref<number>,
+  bar: Ref<number>
+}
+*/
+
+// 这个 ref 和源属性已经“链接上了”
+state.foo++;
+console.log(stateAsRefs.foo.value); // 2
+
+stateAsRefs.foo.value++;
+console.log(state.foo); // 3
+
+let { foo, bar } = stateAsRefs; // 可以解构而不会失去响应性, 也可以对props操作
 ```
 
 ## toRow & markRaw
