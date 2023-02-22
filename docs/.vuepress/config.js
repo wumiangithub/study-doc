@@ -89,6 +89,7 @@ module.exports = {
           collapsable: true,
           children: [
             ["", "react"],
+            ["hooks", "hooks"],
             ["redux", "redux"],
             ["dva", "dva"],
             ["nextjs", "nextjs"],

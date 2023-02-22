@@ -247,13 +247,32 @@ Array.prototype.slice.call(arguments);
 
 [参考](https://www.cnblogs.com/pssp/p/5215621.html#1)
 
+## ES5/ES6 的继承除了写法以外还有什么区别？
+
+### 区别一 : **proto**指向不一致
+
+ES5 原型链继承里的
+`child.__proto__ === Function.prototype`
+
+ES6 的 class 里的
+`child.__proto__ === Parent //子类可以直接通过 proto 寻址到父类`
+
+### 区别二 :子类 this 生成顺序不同
+
+ES5 和 ES6 子类 this 生成顺序不同。ES5 的继承先生成了子类实例，再调用父类的构造函数修饰子类实例，ES6 的继承先生成父类实例，再调用子类的构造函数修饰父类实例。这个差别使得 ES6 可以继承内置对象
+
 ## js 七种继承方式介绍及优缺点
 
 ### class 继承
 
 Class 可以通过 extends 关键字实现继承
 
+ES6 规定，子类必须在 constructor()方法中调用 super()，否则就会报错。这是因为子类自己的 this 对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，添加子类自己的实例属性和方法。如果不调用 super()方法，子类就得不到自己的 this 对象。
+
 ### 原型链继承
+
+**将 Children 的原型对象指定为 Parent 的实例:**
+`Children.prototype = new Parent();`
 
 - 优点：
 
@@ -280,7 +299,7 @@ function Parent() {
 }
 
 function Children() {}
-//将Children的原型对象指定为Parent的示例，通过原型链，将Parent中的属性赋值给Children示例
+//将Children的原型对象指定为Parent的实例，通过原型链，将Parent中的属性赋值给Children示例
 Children.prototype = new Parent();
 const a = new Children();
 console.log(a.parentPrototype); // parent prototype
@@ -306,6 +325,11 @@ doggie.speak(); //wang
 ```
 
 ### 构造函数继承
+
+**主要是在子类中通过 call 或者 apply 指向父类**
+`function Children() {
+  Parent.call(this);
+}`
 
 - 优点：
 
@@ -519,7 +543,7 @@ console.log(sub_banana.color); //yellow
 console.log(sub_banana.getColor()); //yellow
 ```
 
-### Object.create 和 new obj()的区别
+## Object.create 和 new obj()的区别
 
 ```js
 // Object.create的实现核心代码
@@ -552,7 +576,3 @@ Base.call(o1);
 - ES6 模块化采用静态编译，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西
 
 [参考](https://www.cnblogs.com/beyonds/p/8992619.html)
-
-## 面试题文档
-
-[参考](https://juejin.cn/post/6844903885488783374)

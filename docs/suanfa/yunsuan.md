@@ -17,3 +17,136 @@ parseInt(string, radix)
 ```
 
 [参考](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/4)
+
+## class 是会提升的
+
+class 是会提升的，但不会初始化赋值, 其表现与 let、const 类似，Foo 进入暂时性死区。
+看下例：如果没有提升，foo 会是块作用域外的 Foo 实例。但是由于提升的关系，块作用域内的 Foo 遮蔽了外层的同名函数。
+
+```js
+var Foo = function () {
+  this.foo = 21;
+};
+
+{
+  const foo = new Foo(); // ReferenceError: Foo is not defined
+  class Foo {
+    constructor() {
+      this.foo = 37;
+    }
+  }
+}
+```
+
+## 微任务运算题
+
+### 多个点 then，算一个微任务循环
+
+```js
+// 运算结果: 1 、2 、3、4、5、6、7、8
+console.log(1);
+
+setTimeout(function () {
+  console.log(8);
+}, 0);
+
+const p = new Promise((resolve, reject) => {
+  console.log(2);
+  resolve(5);
+  console.log(3);
+});
+
+p.then((data) => {
+  console.log(data);
+})
+  .then((data) => {
+    console.log(6);
+  })
+  .then((data) => {
+    console.log(7);
+  });
+
+console.log(4);
+```
+
+## 多个 promise，先执行 promise 内部 promise 中的点 then
+
+```js
+// 运算结果: 4、3、2、1
+
+new Promise((resolve, reject) => {
+  console.log(4);
+  resolve(1);
+
+  new Promise((resolve, reject) => {
+    resolve(2);
+  }).then((data) => {
+    console.log(data);
+  });
+}).then((data) => {
+  console.log(data);
+});
+
+console.log(3);
+```
+
+### await 后面的方法属于同一个循环先执行，
+
+```js
+//请写出输出内容
+async function async1() {
+  console.log("async1 start");
+  await async2();
+  console.log("async1 end");
+}
+async function async2() {
+  console.log("async2");
+}
+
+console.log("script start");
+
+setTimeout(function () {
+  console.log("setTimeout");
+}, 0);
+
+async1();
+
+new Promise(function (resolve) {
+  console.log("promise1");
+  resolve();
+}).then(function () {
+  console.log("promise2");
+});
+console.log("script end");
+
+/*
+script start
+async1 start
+async2
+promise1
+script end
+async1 end
+promise2
+setTimeout
+*/
+```
+
+## Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+
+promise 构造函数是同步执行的，then 方法是异步执行的
+
+```js
+// 执行结果是：1243
+
+const promise = new Promise((resolve, reject) => {
+  console.log(1);
+  resolve();
+  console.log(2);
+});
+
+promise.then(() => {
+  console.log(3);
+});
+
+console.log(4);
+```

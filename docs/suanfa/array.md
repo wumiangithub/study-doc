@@ -210,3 +210,63 @@ console.log(arraySumEqual([1, 2, 4])); //7
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 fruits.push("Kiwi", "Lemon", "Pineapple"); //Banana,Orange,Apple,Mango,Kiwi,Lemon,Pineapple
 ```
+
+## flat 将数组平铺
+
+flat 中的参数，代表数组嵌套了几层，可以给一个大值，不能比实际嵌套层数小
+
+```js
+var arr = [[1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10];
+// console.log(arr.flat(4));
+console.log(arr.flat(40));
+// console.log(arr.flat(Infinity));
+```
+
+[参考](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
+
+## 将数组平铺、去重、排序
+
+var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+编写一个程序将数组扁平化去并除其中重复部分数据，最终得到一个升序且不重复的数组
+
+### 方式一：利用 Array.flat
+
+```js
+var old_arr = [
+  [1, 2, 2],
+  [3, 4, 5, 5],
+  [6, 7, 8, 9, [11, 12, [12, 13, [14]]]],
+  10,
+];
+
+// 数组拍平
+var level_arr = old_arr.flat(4);
+
+//数组去重
+var Distinct = Array.from(new Set(level_arr));
+
+// 排序
+var sort = Distinct.sort((a, b) => a - b);
+
+console.log("new arr", sort);
+```
+
+### 方式二：利用 Array.toString
+
+```js
+var old_arr = [
+  [1, 2, 2],
+  [3, 4, 5, 5],
+  [6, 7, 8, 9, [11, 12, [12, 13, [14]]]],
+  10,
+];
+let new_arr = old_arr
+  .toString() //1,2,2,3,4,5,5,6,7,8,9,11,12,12,13,14,10
+  .split(",") // ['1', '2', '2', '3', '4', '5', '5', '6', '7', '8', '9', '11', '12', '12', '13', '14', '10']
+  .sort((a, b) => {
+    return a - b;
+  }) //['1', '2', '2', '3', '4', '5', '5', '6', '7', '8', '9', '10', '11', '12', '12', '13', '14']
+  .map(Number); //[1, 2, 2, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 14]
+new_arr = Array.from(new Set(new_arr)); //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+console.log(new_arr);
+```
