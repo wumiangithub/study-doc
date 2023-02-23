@@ -150,3 +150,35 @@ promise.then(() => {
 
 console.log(4);
 ```
+
+## forEach 终止循环
+
+forEach 无法通过正常流程(如 break)终止循环，但可通过抛出异常的方式实现终止循环
+
+```js
+var arr = [1, 2, 3, 4, 5, 6];
+try {
+  arr.forEach((item) => {
+    if (item === 3) {
+      throw new Error("End Loop");
+    }
+    console.log(item);
+  });
+} catch (e) {
+  if (e.message === "End Loop") throw e;
+}
+//将只输出 1 2
+```
+
+可使用 return 语句跳出本次循环，执行下一次循环
+
+```js
+var arr = [1, 2, 3, 4, 5, 6];
+arr.forEach((item) => {
+  if (item === 3) {
+    return;
+  }
+  console.log(item);
+});
+//将输出 1 2 4 5 6，3不会输出
+```

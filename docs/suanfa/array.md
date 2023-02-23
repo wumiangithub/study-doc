@@ -182,7 +182,7 @@ fruits.splice(2, 1, "Lemon", "Kiwi"); //Banana,Orange,Lemon,Kiwi,Mango
 
 **pop() 方法会改变原始数组。**
 
-## 数组求和
+## reduce数组求和
 
 ```js
 /** es6 */

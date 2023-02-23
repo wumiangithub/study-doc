@@ -258,4 +258,5 @@ window.addEventListener("resize", throttle(sayHi));
 
 ## 文档
 
-[前端面试常见算法: 参考](https://blog.csdn.net/Better_Xing/article/details/114937915)
+[前端面试常见算法: 参考](https://blog.csdn.net/Better_Xing/article/details/114937915)  
+[面试必会 35 道手写](https://juejin.cn/post/6859026583533912072)

@@ -23,11 +23,56 @@ const [isPending, startTransition] = useTransition();
 
 返回一个延时响应的值可以让一个 state 延时生效，只有当前没有紧急更新的任务时，该值才会变为最新的值。和 startttanstion 一样都是标记为非紧急更新。
 
+## useTransition
+
+**可以用来降低渲染优先级**
+
+```js
+/*
+举一个输入框的例子
+用户输入是最高优先级，
+查询优先级次之，那么就可以使用useTransition代替防抖
+*/
+import React, { useState, useTransition } from "react";
+
+export default function Demo() {
+  const [value, setValue] = useState("");
+  const [searchQuery, setSearchQuery] = useState([]);
+  const [loading, startTransition] = useTransition(2000);
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+    // 延迟更新
+    startTransition(() => {
+      setSearchQuery(Array(20000).fill(e.target.value));
+    });
+  };
+
+  return (
+    <div className="App">
+      <input value={value} onChange={handleChange} />
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        searchQuery.map((item, index) => <p key={index}>{item}</p>)
+      )}
+    </div>
+  );
+}
+```
+
+### useDeferredValue
+
+**useDeferredValue 会在更紧急的任务执行完，在执行。比如等用户输入完成在执行  
+比起防抖和节流更智能，不需要固定时间执行。**
+
 ## useTranstion 和 useDeferredValue 异同：
 
 相同点： useDeferredValue 本质上和内部实现与 useTranstion 一样都是标记成了过度更新任务。
 
 不同点：useTranstion 是把 startTranstion 内部的更新任务变成了过度任务 transtion，而 useDeferredValue 是把原值通过过度任务得到新的值，这个值作为延时状态，一个是处理逻辑，一个是生产一个新的状态
+
+[useTranstion 和 useDeferredValue 原理](https://blog.csdn.net/weixin_43294560/article/details/121428955)
 
 ## Hook 规则
 
@@ -224,49 +269,6 @@ function Timer() {
   // ...
 }
 ```
-
-## useTransition
-
-**可以用来降低渲染优先级**
-
-```js
-/*
-举一个输入框的例子
-用户输入是最高优先级，
-查询优先级次之，那么就可以使用useTransition代替防抖
-*/
-import React, { useState, useTransition } from "react";
-
-export default function Demo() {
-  const [value, setValue] = useState("");
-  const [searchQuery, setSearchQuery] = useState([]);
-  const [loading, startTransition] = useTransition(2000);
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    // 延迟更新
-    startTransition(() => {
-      setSearchQuery(Array(20000).fill(e.target.value));
-    });
-  };
-
-  return (
-    <div className="App">
-      <input value={value} onChange={handleChange} />
-      {loading ? (
-        <p>loading...</p>
-      ) : (
-        searchQuery.map((item, index) => <p key={index}>{item}</p>)
-      )}
-    </div>
-  );
-}
-```
-
-### useDeferredValue
-
-**useDeferredValue 会在更紧急的任务执行完，在执行。比如等用户输入完成在执行  
-比起防抖和节流更智能，不需要固定时间执行。**
 
 ## 自定义 Hook
 

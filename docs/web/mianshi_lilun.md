@@ -132,7 +132,7 @@ Node Event Loop 是由 libuv 库实现。这里主要讲的是浏览器部分。
 
    **总结：简单讲就是，js 事件分为同步任务和异步任务，**
 
-   1. 同步任务都在主线程上执行，形成一个执行栈,
+   1. 同步任务都在主线程上执行，形成一个执行栈(调用栈),
 
    2. 异步任务执行完成后，放入任务队列,
 
@@ -204,10 +204,11 @@ JS Runtime 并不是单线程的，而是持有一个线程池，因此 WebAPI �
     同域名下所有通信都在单个连接上完成, 多个请求可以公用一个 TCP 链接
 
     3.  header 压缩
-    HTTP2 使用了专门为首部压缩而设计的 HPACK 算法。
-    header 压缩，如上文中所言，对前面提到过 HTTP1.x 的 header 带有大量信息，
-    而且每次都要重复发送，HTTP2.0 使用 encoder 来减少需要传输的 header 大小，通讯双方各自 cache 一份 header fields 表，
-    既避免了重复 header 的传输，又减小了需要传输的大小。
+    在 HTTP/1 中，我们使用文本的形式传输 header，在 header 携带 cookie 的情况下，可能每次都需要重复传输几百到几千的字节。
+
+    在 HTTP / 2 中，使用了 HPACK 压缩格式对传输的 header 进行编码，减少了 header 的大小。
+    并在两端维护了索引表，用于记录出现过的 header ，后面在传输过程中就可以传输已经记录过的 header 的键名，
+    对端收到数据后就可以通过键名找到对应的值
 
     4. 服务端推送
     服务端推送（server push），同SPDY一样，HTTP2.0也具有server push功能
@@ -353,39 +354,90 @@ b.__proto__ === Foo.prototype;
             根据定义好的协议,分析当前触发了那种方法,然后根据定义来执行等
 ```
 
-```
-二：
-如 JavaScriptCore 不支持 iOS7 以下，addJavascriptInterface 在 4.2 以前有风险漏洞
-当然了，时至今日，这些低版本造成的影响已经慢慢不再
+### android 使用 addJavascriptInterface 申明方法
 
-具体操作：
-android：
-js 调用 android
+```js
+// android申明app_hide_welcomeImg方法
 webView.addJavascriptInterface(new Object() {
-   @JavascriptInterface
-   public void handshake(String value) {
-      System.out.println("JS 调用了 Android 的 hello 方法");
-      button.setText(value);
-   }
+            @JavascriptInterface
+            public void app_hide_welcomeImg() {
+                Log.i("webView", "JS调用了Android的app_hide_welcomeImg方法");
+                hide_welcomeImg();
+            }
 }, "$App");
+// js调用android申明的app_hide_welcomeImg方法
+window.$App.app_hide_welcomeImg();
+```
 
-android 调用 js
-webView.evaluateJavascript("javascript:callJS(" + js + ")", new ValueCallback<\String>() {
-   @Override
-   public void onReceiveValue(String value) {
-      button.setText(value);
-   }
-});
+### android 使用 evaluateJavascript 调用 js 申明的方法
 
-ios：
-js 调用 ios
-window.webkit.messageHandlers.showMessage.postMessage({type:"h5-callOc"});
+```js
+public void callJS(final String type) {
+        webView.post(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void run() {
+                switch (type) {
+                    case "js_get_wx_code":
+//               方式一  传递对象的方式给js
+                        JSONObject js = new JSONObject();
+                        try {
+                            js.put("os", "android");
+                            js.put("wx_code", Constants.wx_code);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        webView.evaluateJavascript("javascript:js_get_wx_code(" + js + ")", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
+                                Constants.wx_code = null;
+                            }
+                        });
 
-ios 调用 js
+//                     方式二  传递多个参数给js   目前ios不好传递对象给js。所以为了保持统一，尽量用方式二
+                       /* JSONObject js = new JSONObject();
+                        try {
+                            js.put("os", "android");
+                            js.put("wx_code", Constants.wx_code);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        webView.evaluateJavascript("javascript:js_get_wx_code('" + js + "','"+ Constants.wx_code +"')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
+                                Constants.wx_code = null;
+                            }
+                        });*/
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+```
+
+### ios 使用 addScriptMessageHandler 申明方法
+
+```js
+// ios使用addScriptMessageHandler申明方法，提供给js调用
+[self.webView.configuration.userContentController addScriptMessageHandler:self name:@"app_hide_welcomeImg"];
+
+//js 调用 ios
+window.webkit.messageHandlers.showMessage.postMessage({ type: "h5-callOc" });
+```
+
+### ios 使用 evaluateJavascript 调用 js
+
+```js
 [self.wkWebView evaluateJavaScript:@"changeBGColor()" completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
 }];
-
 ```
+
+- ios 还可以使用 JavaScriptCore 库来实现交互
+
+如 JavaScriptCore 不支持 iOS7 以下，addJavascriptInterface 在 4.2 以前有风险漏洞
+当然了，时至今日，这些低版本造成的影响已经慢慢不再
 
 > [参考](https://www.jianshu.com/p/477ea20b1ece)
 
@@ -394,6 +446,14 @@ ios 调用 js
 浏览器缓存过程： 强缓存，协商缓存。
 
 浏览器缓存位置一般分为四类： Service Worker-->Memory Cache-->Disk Cache-->Push Cache。
+
+### 强缓存：
+
+利用 http 头的 expires 与 cache-control 来控制，普通刷新会忽略它，不会清除，需要强制刷新。强制刷新时会带上 cache-control：no-cache；pragma：no-cache。
+
+### 协商缓存
+
+由服务器端确定缓存资源是否可用，设置一个标识符 Etag 来判断。
 
 ### 1、缓存方案，目前的项目大多使用这种缓存方案的：
 
@@ -412,4 +472,5 @@ ios 调用 js
 - 当 f5 刷新网页时，跳过强缓存，但是会检查协商缓存。
 - 浏览器地址栏中写入 URL，回车 浏览器发现缓存中有这个文件了，不用继续请求了，直接去缓存拿。（最快）
 
-> [浏览器缓存](https://juejin.cn/post/6947936223126093861)
+> [浏览器缓存](https://juejin.cn/post/6947936223126093861)    
+> [强缓存，协商缓存](https://www.ngui.cc/el/3159070.html)

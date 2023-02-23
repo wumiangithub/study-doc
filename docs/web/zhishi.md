@@ -35,3 +35,5 @@ BFF——服务于前端的后端(Back-end For Front-end)
 ### qiankun.js
 
 ### wujie.js
+
+### [single-spa](https://zh-hans.single-spa.js.org/docs/getting-started-overview/)

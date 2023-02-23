@@ -123,6 +123,15 @@ module.exports.getMax = getMax;
 
 ## 小程序和 webview 怎么通信
 
+## 目录中的 miniprogram_npm 和 node-modules 什么关系
+
+- node-modules 是你使用 npm 安装第三方包时候，包的源码
+- miniprogram_npm : 安装了第三方包并不能直接使用，需要: 点击工具->构建 npm，会生成 miniprogram_npm 目录
+
+## 微信小程序第三方组件库
+
+- @vant/weapp
+
 ## 微信小程序学习文档
 
 [微信小程序官方文档](https://developers.weixin.qq.com/miniprogram/dev/framework/)

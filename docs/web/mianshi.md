@@ -259,7 +259,9 @@ ES6 的 class 里的
 
 ### 区别二 :子类 this 生成顺序不同
 
-ES5 和 ES6 子类 this 生成顺序不同。ES5 的继承先生成了子类实例，再调用父类的构造函数修饰子类实例，ES6 的继承先生成父类实例，再调用子类的构造函数修饰父类实例。这个差别使得 ES6 可以继承内置对象
+- ES5 和 ES6 子类 this 生成顺序不同。
+- ES5 的继承先生成了子类实例，再调用父类的构造函数修饰子类实例，
+- ES6 的继承先生成父类实例，再调用子类的构造函数修饰父类实例
 
 ## js 七种继承方式介绍及优缺点
 
@@ -544,6 +546,12 @@ console.log(sub_banana.getColor()); //yellow
 ```
 
 ## Object.create 和 new obj()的区别
+
+所创建对象继承的原型不同：
+
+- new Object()的原型继承内置对象 Object；
+- 而 Object.create()的原型则是继承指定对象，新创建对象本身并没有直接继承 Object.prototype 的属性和方法。
+- 当 Object.create()的必传参数 proto 为 null 时，则会创建以 null 为原型的对象，没有继承 Object.prototype 的任何对象方法
 
 ```js
 // Object.create的实现核心代码
