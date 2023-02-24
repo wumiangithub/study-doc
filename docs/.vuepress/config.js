@@ -93,6 +93,9 @@ module.exports = {
             ["redux", "redux"],
             ["dva", "dva"],
             ["nextjs", "nextjs"],
+            ["redux-saga", "redux-saga"],
+            ["react-redux", "react-redux"],
+            ["life-cycle", "生命周期"],
           ],
         },
       ],
@@ -140,7 +143,16 @@ module.exports = {
       "/node/": [""],
       "/uniapp/": [""],
       "/taro/": [""],
-      "/wx_mini/": [""],
+      "/wx_mini/": [
+        {
+          title: "微信小程序",
+          collapsable: true,
+          children: [
+            ["", "小程序"],
+            ["login_pay", "登录和支付"],
+          ],
+        },
+      ],
       "/angular/": [""],
       "/suanfa/": [
         {

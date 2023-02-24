@@ -92,6 +92,9 @@ const asyncModalWithOptions = defineAsyncComponent({
 - onServerPrefetch
   注册一个异步函数，在组件实例在服务器上被渲染之前调用。
 
+
+## vue2和vue3的diff算法有什么不一样  
+
 # 学习文档
 
 > [vue2 和 vue3 区别官网链接](https://v3-migration.vuejs.org/)

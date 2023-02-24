@@ -182,3 +182,61 @@ arr.forEach((item) => {
 });
 //将输出 1 2 4 5 6，3不会输出
 ```
+
+## for 循环中的 continue, break, return
+
+```js
+for (let i = 0; i < 3; i++) {
+  console.log(i); //0 1 2
+}
+```
+
+### continue （停顿后）继续走:
+
+```js
+for (let i = 0; i < 3; i++) {
+  if (i == 1) {
+    continue;
+  }
+  console.log(i); //0  2
+}
+```
+
+### break 结束 for 循环
+
+当双层 for 循环的时候，只结束内层 for 循环，外层 for 循环不受影响
+
+```js
+for (let i = 0; i < 3; i++) {
+  if (i == 1) {
+    break;
+  }
+  console.log(i); //0
+}
+```
+
+### return 结束 for 循环
+
+当双层 for 循环的时候，内层外层 for 循环都能结束
+
+```js
+//  不能直接出现在for循环中，return要出现在函数体内
+for (let i = 0; i < 3; i++) {
+  if (i == 1) {
+    return; //Uncaught SyntaxError: Illegal return statement
+  }
+  console.log(i);
+}
+```
+
+```js
+function test() {
+  for (let i = 0; i < 3; i++) {
+    if (i == 1) {
+      return;
+    }
+    console.log(i); //0
+  }
+}
+test();
+```

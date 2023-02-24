@@ -116,3 +116,108 @@ class Example extends React.Component {
 }
 //答案是： 0 0 2 3，你做对了吗？
 ```
+
+## react 生态
+
+### umi
+
+- 一个可插拔的企业级 react 应用框架
+- umi 是蚂蚁金服的底层前端框架
+- 开箱即用，内置 react、react-router 等
+- dva 目前是纯粹的数据流, 个人觉得 umi + dva 是比较搭的
+
+[umi 官网](https://v2.umijs.org/zh/)
+
+### dva
+
+- dva 目前是纯粹的数据流,
+- 仅有 6 个 api，对 redux 用户尤其友好，配合 umi 使用后更是降低为 0 API
+
+[dva 官网](https://dvajs.com/)
+
+### reducers
+
+- reducer 就是一个纯函数，接收旧的 state 和 action，返回新的 state。
+
+```js
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return { count: state.count + 1 };
+    case "decrement":
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+    </>
+  );
+}
+```
+
+### redux
+
+- Redux 主要是 action——reducer——store 这三者之间进行关联。
+
+- Redux 除了和 React 一起用外，还支持其它界面库。 它体小精悍（只有 2kB，包括依赖）。
+
+- Redux 是 JavaScript 状态容器，
+
+- Redux 由 [Flux](http://facebook.github.io/flux/) 演变而来，但受 Elm 的启发，避开了 Flux 的复杂性。
+
+[redux 官网](https://www.redux.org.cn/)
+
+### react-redux
+
+- 1、将组件分为了容器组件和 UI 组件；
+- 2、取代 redux 中的“store.subscribe”监听组件的状态变化，用于渲染组件；
+  通过 Provider 组件来取代 redux 中的 store.subscribe 来监听组件的状态变化，用于渲染组件。
+- 3、配合 redux 使用，使组件轻松的拿到全局状态，方便组件间的通信。
+
+[react-redux 官网](https://react-redux.js.org/tutorials/quick-start)
+
+### redux-saga
+
+- redux-saga 是一个 redux 中间件，
+- 它的目标是让副作用管理更容易，执行更高效，测试更简单，在处理故障时更容易。（副作用，例如异步获取数据，访问浏览器缓存等）
+
+[redux-saga 官网](https://redux-saga-in-chinese.js.org/)
+
+### ahooks
+
+### Davinci
+
+### formily 拖拽表单
+
+[github:formily](https://github.com/alibaba/formily)
+
+### antd-formily-boost 表格
+
+[antd-formily-boost 官网](https://fishedee.github.io/antd-formily-boost/start)
+
+### sula Form Table
+
+- 仅通过 JSON 配置就可以完成整个项目的「产品级配置」。
+- import { Form, Table, CreateForm, QueryTable, StepForm, StepQueryTable } from 'sula';  
+  [sula 官网](https://sula.vercel.app/#/advanced/whatisplugin?anchor=input-%E6%8F%92%E4%BB%B6)
+
+### rematch
+
+Rematch 是在 redux 的基础上再次封装，使用 rematch，我们就不需要再声明 action 类型、action 创建函数、thunks 配置；
+
+如果你之前学过 vuex，那你对这个不会陌生，因为模式基本上一样。
+[rematch 官网](https://rematchjs.org/docs/)
+
+## 文档
+
+[官网](https://zh-hans.reactjs.org/docs/getting-started.html)

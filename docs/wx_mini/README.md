@@ -128,6 +128,29 @@ module.exports.getMax = getMax;
 - node-modules 是你使用 npm 安装第三方包时候，包的源码
 - miniprogram_npm : 安装了第三方包并不能直接使用，需要: 点击工具->构建 npm，会生成 miniprogram_npm 目录
 
+## wx:for
+
+- 使用 wx:for-item 可以指定数组当前元素的变量名: 默认就是 item
+- 使用 wx:for-index 可以指定数组当前下标的变量名: 默认就是 index
+
+```js
+<switch wx:for="{{objectArray}}" wx:key="unique" style="display: block;"> {{item.id}} </switch>
+
+<switch wx:for="{{numberArray}}" wx:key="*this" style="display: block;"> {{item}} </switch>
+
+data: {
+  objectArray: [
+    {id: 5, unique: 'unique_5'},
+    {id: 4, unique: 'unique_4'},
+    {id: 3, unique: 'unique_3'},
+    {id: 2, unique: 'unique_2'},
+    {id: 1, unique: 'unique_1'},
+    {id: 0, unique: 'unique_0'},
+  ],
+  numberArray: [1, 2, 3, 4]
+}
+```
+
 ## 微信小程序第三方组件库
 
 - @vant/weapp
