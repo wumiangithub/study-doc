@@ -1,5 +1,17 @@
 # redux
 
+## redux
+
+- Redux 主要是 action——reducer——store 这三者之间进行关联。
+
+- Redux 除了和 React 一起用外，还支持其它界面库。 它体小精悍（只有 2kB，包括依赖）。
+
+- Redux 是 JavaScript 状态容器，
+
+- Redux 由 [Flux](http://facebook.github.io/flux/) 演变而来，但受 Elm 的启发，避开了 Flux 的复杂性。
+
+[redux 官网](https://www.redux.org.cn/)
+
 ## Redux 工作原理
 
 ````

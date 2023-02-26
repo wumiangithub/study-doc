@@ -36,6 +36,11 @@ ReactDOM.render(
 
 ### @reduxjs/toolkit
 
+可以起到 vuex 中 module 的作用
+import { createSlice, createAsyncThunk , configureStore } from '@reduxjs/toolkit'
+
+[参考](https://blog.csdn.net/weixin_66557048/article/details/128502261)
+
 [@reduxjs/toolkit 官网](https://redux-toolkit.js.org/introduction/getting-started)
 
 ## 文档
