@@ -542,7 +542,12 @@ const myDirective = {
 
 vue3 移除了 EventBus ，如果需要使用相同功能可以使用辅助库 mitt，同样具有 on、emit、off 方法，而且压缩后仅有 200 bytes
 
+## 生态
+
+### vueuse
+
+> [vueuse](https://vueuse.org/)
+
 ## VUE3.0 学习文档
 
-> [官网文档](https://cn.vuejs.org/)  
-> [vueuse](https://vueuse.org/)
+> [官网文档](https://cn.vuejs.org/)

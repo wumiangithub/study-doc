@@ -14,7 +14,7 @@
 - node
 - umi
 - serve : 一个本地 node 静态网页服务器，将打包好的 dist 文件，可以直接使用 serve 跑起来 example : server ./dist
-  还有一个类似的库 anywhere 
+  还有一个类似的库 anywhere
 - now: 一个服务器，可以使用外网访问
   - now 在 2020 年 12 月 31 日停止跟新，使用 vercel 代替 npm i -g vercel
     [vercel 官网](https://vercel.com/docs)
@@ -32,6 +32,34 @@ umi g  page index   在pages下生成index.js文件和index.css文件
 并且，page下的所有页面都将被自动解析为路由
 ```
 
+## 新建 global.d.ts 文件
+
+```ts
+declare module "react";
+declare module "umi";
+declare module "*.less";
+
+declare module "*.module.less" {
+  const classes: {
+    readonly [key: string]: string;
+  };
+  export default classes;
+}
+```
+
+## 新建 tsconfig.json 文件
+
+```json
+{
+  "compilerOptions": {
+    "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错
+    "jsx": "react" //无法使用 JSX，除非提供了 "--jsx" 标志。ts(17004)
+  }
+}
+```
+
 ## 文档
 
-[umi 官网](https://v2.umijs.org/zh/)
+[umi2 官网](https://v2.umijs.org/zh/)
+[umi3 官网](https://v3.umijs.org/)
+[umi 官网](https://umijs.org/docs/tutorials/getting-started)
