@@ -32,6 +32,10 @@ BFF——服务于前端的后端(Back-end For Front-end)
 
 ## preventDefault stopPropagation stopImmediatePropagation
 
+### stopImmediatePropagation() 和 stopPropagation()的区别
+
+后者只会阻止冒泡或者是捕获。 但是前者除此之外还会阻止该元素的其他事件发生，但是后者就不会阻止其他事件的发生。
+
 [参考](https://zhuanlan.zhihu.com/p/389150328)
 
 ## 微服务
@@ -59,6 +63,7 @@ BFF——服务于前端的后端(Back-end For Front-end)
 
 ### qiankun.js
 
+- import { registerMicroApps, start, loadMicroApp } from 'qiankun';
 - qiankun 是一个基于 single-spa 的微前端实现库
   [qiankun 官网](https://qiankun.umijs.org/zh/)
 
@@ -68,6 +73,32 @@ BFF——服务于前端的后端(Back-end For Front-end)
 - LegacySandbox：在微应用修改 window.xxx 时直接记录 Diff，将其用于环境恢复
 - ProxySandbox：为每个微应用分配一个 fakeWindow，当微应用操作 window 时，其实是在 fakeWindow 上操作
   要和这些沙箱结合起来使用，qiankun 会把要执行的 JS 包裹在立即执行函数中，通过绑定上下文和传参的方式来改变 this 和 window 的值，让它们指向 window.proxy 沙箱对象，最后再用 eval 来执行这个函数。
+
+### ProxySandbox 沙箱原理
+
+```
+前面两种沙箱都是 单例模式 下使用的沙箱。也即一个页面中只能同时展示一个微应用，而且无论是 set 还是 get 依然是直接操作 window 对象。
+
+在这样单例模式下，当微应用修改全局变量时依然会在原来的 window 上做修改，因此如果在同一个路由页面下展示多个微应用时，依然会有环境变量污染的问题。
+
+为了避免真实的 window 被污染，qiankun 实现了 ProxySandbox。它的想法是：
+
+把当前 window 的一些原生属性（如document, location等）拷贝出来，单独放在一个对象上，这个对象也称为 fakeWindow
+
+之后对每个微应用分配一个 fakeWindow
+
+当微应用修改全局变量时：如果是原生属性，则修改全局的 window
+
+如果是原生属性，则修改 fakeWindow 里的内容
+
+微应用获取全局变量时：如果是原生属性，则从 window 里拿
+
+如果不是原生属性，则优先从 fakeWindow 里获取
+
+这样一来连恢复环境都不需要了，因为每个微应用都有自己一个环境，当在 active 时就给这个微应用分配一个 fakeWindow，当 inactive 时就把这个 fakeWindow 存起来，以便之后再利用。
+```
+
+[沙箱原理：参考](https://www.ezd.cc/zs/30565.html)
 
 ### wujie.js
 

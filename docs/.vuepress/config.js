@@ -93,8 +93,9 @@ module.exports = {
           collapsable: true,
           children: [
             ["", "react"],
-            ["life-cycle", "生命周期"],
+            ["mianshi", "面试"],
             ["hooks", "hooks"],
+            ["life-cycle", "生命周期"],
             ["redux", "redux"],
             ["react-redux", "react-redux"],
             ["redux-saga", "redux-saga"],
@@ -128,6 +129,7 @@ module.exports = {
             ["webGL", "webGL"],
             ["threejs", "threejs"],
             ["electron", "electron"],
+            ["gulp", "gulp"],
             ["error", "错误收集"],
             ["jiagou", "架构"],
             ["tiaoshi", "调试"],

@@ -56,7 +56,8 @@ $ pnpm -v
 ```
 
 ### 还有什么
-这些乱七八糟的，都是阿里搞的，只要会npm 和 yarn就行
+
+这些乱七八糟的，都是阿里搞的，只要会 npm 和 yarn 就行
 
 - npm
 - cnpm
@@ -64,3 +65,7 @@ $ pnpm -v
 - pnpm
 - yarn
 - tyarn
+
+### npm
+
+npm info 包名

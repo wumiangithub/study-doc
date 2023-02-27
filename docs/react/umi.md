@@ -17,6 +17,7 @@
   还有一个类似的库 anywhere
 - now: 一个服务器，可以使用外网访问
   - now 在 2020 年 12 月 31 日停止跟新，使用 vercel 代替 npm i -g vercel
+  - 有人说 vercel 不适合国内，没试过不知道
     [vercel 官网](https://vercel.com/docs)
 
 ```

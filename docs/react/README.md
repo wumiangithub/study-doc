@@ -30,28 +30,6 @@
     - useTransition
     -
 
-## 简述 React 的生命周期
-
-### 挂载
-
-1. constructor 可以进行 state 和 props 的初始化
-
-2. render
-
-3. componentDidMount 第一次渲染后调用，可以访问 DOM，进行异步请求和定时器、消息订阅
-
-### 更新
-
-1. shouldComponentUpdate 返回一个布尔值，默认返回 true (当组件的 props 或 state 变化会触发更新)
-
-2. render
-
-3. componentDidUpdate 在组件完成更新后调用
-
-### 卸载
-
-1. componentWillUnmount 组件从 DOM 中被移除的时候调用
-
 ## 什么是 fiber，fiber 解决了什么问题
 
 在 React16 以前，React 更新是通过树的深度优先遍历完成的，遍历是不能中断的

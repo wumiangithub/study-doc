@@ -10,7 +10,7 @@
 
 process.client // true false
 
-- created 和 beforeCreated 在服务端和客户端都会运行。
+- created 和 beforeCreated 在服务端和客户端都会运行。他们是独立运行的，不会互相影响。
 - 使用一些特殊的对象或者方法，如 window、Document、localStorage 等对象只存在于客户端，服务端没有，需要用 process.client 来区分。
 
 ## 路由

@@ -1,6 +1,28 @@
 # react 生命周期
 
-### 生命周期：7 中方法
+## 简述 React 的生命周期
+
+### 挂载
+
+1. constructor 可以进行 state 和 props 的初始化
+
+2. render
+
+3. componentDidMount 第一次渲染后调用，可以访问 DOM，进行异步请求和定时器、消息订阅
+
+### 更新
+
+1. shouldComponentUpdate 返回一个布尔值，默认返回 true (当组件的 props 或 state 变化会触发更新)
+
+2. render
+
+3. componentDidUpdate 在组件完成更新后调用
+
+### 卸载
+
+1. componentWillUnmount 组件从 DOM 中被移除的时候调用
+
+## 详解生命周期：7 种方法
 
 ### 创建阶段：只触发一次
 
@@ -9,29 +31,44 @@
 
 - this.state = {}
 
-- componentWillMount 组件将要被创建 等同于 vue 中的 create → UNSAFE_componentWillMount getDerivedStateFromProps(props, state)
+- componentWillMount
+
+  - 组件将要被创建 等同于 vue 中的 create → UNSAFE_componentWillMount
+  - 被 getDerivedStateFromProps(props, state)代替
 
 - render 创建虚拟 DOM
 
-- componentDidMount 组件渲染到页面上了 等同于 vue 中的 mounted
+- componentDidMount
+  - 组件渲染到页面上了 等同于 vue 中的 mounted
 
 ### 运行阶段：根据 state 或者 props 的改变触发 0 次或多次
 
-- componentWillReceiveProps prop (更新后)时被调用 getDerivedStateFromProps → UNSAFE_componentWillReceiveProps
+- componentWillReceiveProps
 
-- shouldComponentUpdate 接收到新的 state 时被调用 或者 componentWillReceiveProps 之后也会被调用 在这里会被询问是否真的要更新组件，更新话走 componentWillUpdate，不更新的话，就不动。
+  - prop (更新后)时被调用 getDerivedStateFromProps → UNSAFE_componentWillReceiveProps
 
-- componentWillUpdate ( 有了 getSnapshotBeforeUpdate 就没有了) shouldComponentUpdate 确认需要更新后被调用 → NSAFE_componentWillReceiveProps
+- shouldComponentUpdate
 
-- render componentWillUpdate 之后被调用 重新渲染虚拟 DOM
+  - 接收到新的 state 时被调用 或者 componentWillReceiveProps 之后也会被调用
+  - 在这里会被询问是否真的要更新组件，更新话走 componentWillUpdate，不更新的话，就不动。
 
-- getSnapshotBeforeUpdate （有了他就没有了 componentWillUpdate）
+- componentWillUpdate
 
-- componentDidUpdate render 之后被调用 组件渲染到页面上了
+  - 有了 getSnapshotBeforeUpdate 就没有了
+  - shouldComponentUpdate 确认需要更新后被调用 → NSAFE_componentWillReceiveProps
+
+- render
+
+  - 重新渲染虚拟 DOM
+
+- componentDidUpdate
+
+  - 组件渲染到页面上了
 
 ### 销毁阶段：只触发一次
 
-- componentWillUnmount 在组件从 DOM 中移除之前立刻被调用。
+- componentWillUnmount
+  - 在组件从 DOM 中移除之前立刻被调用。
 
 ```
 

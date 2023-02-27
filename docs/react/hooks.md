@@ -19,10 +19,6 @@ import { useTransition } from "react";
 const [isPending, startTransition] = useTransition();
 ```
 
-## useDeferredValue
-
-返回一个延时响应的值可以让一个 state 延时生效，只有当前没有紧急更新的任务时，该值才会变为最新的值。和 startttanstion 一样都是标记为非紧急更新。
-
 ## useTransition
 
 **可以用来降低渲染优先级**
@@ -61,10 +57,36 @@ export default function Demo() {
 }
 ```
 
-### useDeferredValue
+### useTransition 原理
 
-**useDeferredValue 会在更紧急的任务执行完，在执行。比如等用户输入完成在执行  
-比起防抖和节流更智能，不需要固定时间执行。**
+react 在内部定义了 5 种类型的调度（Scheduler）优先级：
+
+- ImmediatePriority, 直接优先级，对应用户的 click、input、focus 等操作；
+- UserBlockingPriority，用户阻塞优先级，对应用户的 mouseMove、scroll 等操作；
+- NormalPriority，普通优先级，对应网络请求、useTransition 等操作；
+- LowPriority，低优先级(未找到应用场景)；
+- IdlePriority，空闲优先级，如 OffScreen;
+
+### useTransition 为何能表现出 debounce 效果
+
+- 高优先级更新会中断低优先级更新，优先处理。(协调过程可中断)
+
+- startTransition 方法执行过程中， setPending(true) 触发的更新优先级较高，而 setPending(false)、callback 触发的更新优先级较低。当 callback 触发的更新进入协调阶段以后，由于协调过程可中断，并且用户一直在输入导致一直触发 setPending(true)，使得 callback 触发的更新一直被中断，直到用户停止输入以后才能被完整处理。
+
+### useTransition 为何能表现出 throttle 效果
+
+如果你一直输入，最多 5s，长列表必然会渲染，和 防抖 - throttle 效果一样。
+这是因为为了防止低优先级更新一直被高优先级更新中断而得不到处理，react 为每种类型的更新定义了最迟必须处理时间 - timeout。如果在 timeout 时间内更新未被处理，那么更新的优先级就会被提升到最高 - ImmediatePriority，优先处理。
+
+transition 更新的优先级为 NormalPriority，timeout 为 5000ms 即 5s。如果超过 5s， transition 更新还因为一直被高优先级更新中断而没有处理，它的优先级就会被提升为 ImmediatePriority，优先处理。这样就实现了 throttle 的效果。
+
+[useTransition 参考](https://blog.csdn.net/grooyo/article/details/127862006)
+
+## useDeferredValue
+
+`const deferredValue = useDeferredValue(value);`
+
+useDeferredValue 接受一个值，并返回该值的新副本，该副本将推迟到更紧急地更新之后。如果当前渲染是一个紧急更新的结果，比如用户输入，React 将返回之前的值，然后在紧急渲染完成后渲染新的值。
 
 ## useTranstion 和 useDeferredValue 异同：
 
@@ -363,8 +385,11 @@ React16的事件绑定在document上， React17以后事件绑定在container上
 5. v-for 使用正确的 key
 6. 拆分尽可能小的可复用组件，ErrorBoundary
 7. 使用 React.lazy 和 React.Suspense 延迟加载不需要立马使用的组件
+8. useTranstion 和 useDeferredValue
 
-## React.lazy 和 React.Suspense
+## React.lazy 搭配 React.Suspense 使用
+
+React.lazy 加载的组件只能在 React.Suspense 组件下使用。
 
 ```js
 // 该组件是动态加载的
@@ -382,7 +407,33 @@ function MyComponent() {
 }
 ```
 
-## react-loadable vs React.Suspense
+## react-loadable 使用
+
+```js
+import Loadable from "react-loadable";
+import Loading from "./components/loading";
+
+const MyComponent = Loadable({
+  loader: () => import("./components/Bar"),
+  loading: () => <Loading />,
+});
+```
+
+## @loadable/component
+
+```js
+import Loadable from "@loadable/component";
+export const Trello = Loadable(() =>
+  import(/* webpackChunkName: 'Component.Trello' */ "components/widget/Trello")
+);
+
+// fallback 在创建 component 时传入
+const MyComponent1 = Loadable(() => import("./components/Bar"), {
+  fallback: <Loading />,
+});
+```
+
+## react-loadable vs (React.lazy+React.Suspense)
 
 ```
 替换前后对比
@@ -403,7 +454,14 @@ react-loadable有预加载支持，React.Lazy没有
 | 是否支持 timeout、delay   | ❌         | ✅             | ❌                  |
 | 是否对包体积友好          | ✅         | ❌             | ❌                  |
 
-[参考](https://zhuanlan.zhihu.com/p/585623764)
+[参考:上](https://zhuanlan.zhihu.com/p/584826954)
+
+[参考:下](https://zhuanlan.zhihu.com/p/585623764)
+
+## 懒加载原理
+
+- 利用了函数只有被调用才会执行的特性
+- 先通过一个占位符占位，然后监听 onload。加载完成之后替换真实节点。
 
 ## 函数组件与类组件的区别:
 

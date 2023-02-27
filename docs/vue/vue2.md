@@ -126,6 +126,48 @@ v-model 本质上不过是语法糖
 - pushState 和 repalceState 两个 API 来操作实现 URL 的变化 ；
 - 我们可以使用 popstate 事件来监听 url 的变化，从而对页面进行跳转（渲染）；
 
+## 监听浏览器 url 变化
+
+### popstate
+
+```js
+/*
+popstate可以监听到
+window.history.go();
+window.history.back();
+window.history.forward();
+浏览器中点击后退和前进按钮也会触发popstate事件
+*/
+window.addEventListener("popstate", function (event) {
+  console.log(event);
+});
+```
+
+### replaceState 和 pushState
+
+```js
+// History.replaceState和pushState确实不会触发popstate事件
+// 需要在加上这两个监听
+window.addEventListener("replaceState", function (e) {
+  console.log("THEY DID IT AGAIN! replaceState 111111");
+});
+window.addEventListener("pushState", function (e) {
+  console.log("THEY DID IT AGAIN! pushState 2222222");
+});
+```
+
+### 监听 hash 的改变
+
+```js
+window.onhashchange = function (event) {
+  console.log(event);
+};
+//或者
+window.addEventListener("hashchange", function (event) {
+  console.log(event);
+});
+```
+
 ## Vue 怎么用 vm.$set() 解决对象新增属性不能响应的问题 ？
 
 我们阅读以上源码可知，vm.$set 的实现原理是：
