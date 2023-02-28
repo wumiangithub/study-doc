@@ -10,6 +10,16 @@ module.exports = {
       { text: "首页", link: "/" },
       { text: "学习文档收集", link: "/article/" },
       {
+        text: "技术-1",
+        items: [
+          { text: "快捷键", link: "/shortcut/" },
+          { text: "终端", link: "/terminal/" },
+          { text: "markdown", link: "/markdown/" },
+          { text: "vuepress", link: "/vuepress/" },
+          { text: "工具和软件", link: "/gongju/" },
+        ],
+      },
+      {
         text: "技术",
         items: [
           { text: "前端", link: "/web/" },
@@ -20,6 +30,7 @@ module.exports = {
           { text: "flutter", link: "/flutter/" },
           { text: "uniapp", link: "/uniapp/" },
           { text: "taro", link: "/taro/" },
+          { text: "reactNative", link: "/react_native/" },
           { text: "微信小程序", link: "/wx_mini/" },
           { text: "微信公众号", link: "/wx_public/" },
           { text: "算法", link: "/suanfa/" },
@@ -27,11 +38,9 @@ module.exports = {
           { text: "vue2源码", link: "/vue2_source_code/" },
           { text: "vue3源码", link: "/vue3_source_code/" },
           { text: "angular", link: "/angular/" },
-          { text: "快捷键", link: "/shortcut/" },
-          { text: "终端", link: "/terminal/" },
-          { text: "markdown", link: "/markdown/" },
-          { text: "vuepress", link: "/vuepress/" },
-          { text: "工具和软件", link: "/gongju/" },
+          { text: "android", link: "/android/" },
+          { text: "ios", link: "/ios/" },
+          { text: "electron", link: "/electron/" },
           { text: "其他", link: "/other/" },
         ],
       },
@@ -125,10 +134,10 @@ module.exports = {
             ["less", "less"],
             ["sass", "sass"],
             ["regexp", "正则"],
+            ["weiqianduan", "微前端"],
             ["canvas", "canvas"],
             ["webGL", "webGL"],
             ["threejs", "threejs"],
-            ["electron", "electron"],
             ["gulp", "gulp"],
             ["error", "错误收集"],
             ["jiagou", "架构"],
@@ -190,6 +199,30 @@ module.exports = {
       "/vuepress/": [""],
       "/terminal/": [""],
       "/gongju/": [""],
+      "/react_native/": [""],
+      "/electron/": [""],
+      "/android/": [
+        {
+          title: "android",
+          collapsable: true,
+          children: [
+            ["", "android"],
+            ["java", "java"],
+            ["kotlin", "kotlin"],
+          ],
+        },
+      ],
+      "/ios/": [
+        {
+          title: "ios",
+          collapsable: true,
+          children: [
+            ["", "ios"],
+            ["Swift", "Swift"],
+            ["Objective-C", "Objective-C"],
+          ],
+        },
+      ],
       "/other/": [
         {
           title: "其他",

@@ -69,3 +69,28 @@ $ pnpm -v
 ### npm
 
 npm info 包名
+
+## 配置环境变量
+
+### mac 配置环境变量
+
+1. 打开 terminal
+2. vim ~/.bash_profile
+3. 打开之后 按下键盘上的 i 键， 进入编辑模式
+4. 直接在需要添加环境变量的地方输入
+   - export PUB_HOSTED_URL=https://pub.flutter-io.cn
+   - export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+5. 输入完成后 按下 esc 键 表示编辑完成
+6. 再直接输入 :wq 表示保存并退出
+7. source ~/.bash_profile 让环境变量生效
+8. 检查是否生效
+   - echo $PUB_HOSTED_URL
+
+### windows 配置环境变量
+
+1. 直接右键我的电脑，属性
+2. 高级系统设置
+3. 环境变量
+4. 直接在 path 中新增路径，或者，在 path 同级新增一个路径并取一个别名 NVM_HOME，然后在 path 中新增这个别名也可以（只不过要用%包裹起来）
+   - NVM_HOME C:\Users\Administrator\AppData\Roaming\nvm
+   - %NVM_HOME%
