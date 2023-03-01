@@ -95,6 +95,10 @@ class Example extends React.Component {
 //答案是： 0 0 2 3，你做对了吗？
 ```
 
+## 为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作
+
+因为更改 state 的函数必须是纯函数
+
 ## 文档
 
 [官网](https://zh-hans.reactjs.org/docs/getting-started.html)

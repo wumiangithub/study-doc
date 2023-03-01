@@ -8,4 +8,6 @@ nvm 全名 node.js version management，顾名思义是一个 nodejs 的版本�
 
 注意，在 Node.js 中使用 import 关键字，需要在 package.json 增如键值对： “type”: “module”
 
+## 切片上传知道吗？ 网路不好上传大文件的时候怎么办？
+
 ## 压测怎么做

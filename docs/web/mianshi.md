@@ -30,13 +30,81 @@ arr instanceof Array
 typeof arr
 ```
 
-### typeof、instanceof、constructor 的联系、区别、应用场景（js 类型判断）
+- typeof 返回一个对象的类型的名字，即返回一个字符串
+- instanceof 用来判断左边的值是否属于右边的类型，返回布尔值 true 或 false（严谨地说是：“左值是否为右值的实例”）
+- constructor 则比较单纯，返回当前对象的构造方法
 
+### Object.prototype.toString.call()
+
+**原理:**
+
+- 每一个继承 Object 的对象都有 toString 方法，如果 toString 方法没有重写的话，会返回 [Object type]，其中 type 为对象的类型。
+- 但当除了 Object 类型的对象外，其他类型直接使用 toString 方法时，会直接返回都是内容的字符串，所以我们需要使用 call 或者 apply 方法来改变 toString 方法的执行上下文。
+
+**优点:**
+
+这种方法对于所有基本的数据类型都能进行判断，即使是 null 和 undefined 。
+
+```js
+const an = ["Hello", "An"];
+an.toString(); // "Hello,An"
+Object.prototype.toString.call(an); // "[object Array]"
+Object.prototype.toString.call("An"); // "[object String]"
+Object.prototype.toString.call(1); // "[object Number]"
+Object.prototype.toString.call(Symbol(1)); // "[object Symbol]"
+Object.prototype.toString.call(null); // "[object Null]"
+Object.prototype.toString.call(undefined); // "[object Undefined]"
+Object.prototype.toString.call(function () {}); // "[object Function]"
+Object.prototype.toString.call({ name: "An" }); // "[object Object]"
 ```
-看起来是这样的：
-		typeof 返回一个对象的类型的名字，即返回一个字符串
-		instanceof 用来判断左边的值是否属于右边的类型，返回布尔值 true 或 false（严谨地说是：“左值是否为右值的实例”）
-		constructor 则比较单纯，返回当前对象的构造方法
+
+## instanceof
+
+**原理:**
+
+- instanceof 的内部机制是通过判断对象的原型链中是不是能找到类型的 prototype。
+
+- 使用 instanceof 判断一个对象是否为数组，instanceof 会判断这个对象的原型链上是否会找到对应的 Array 的原型，找到返回 true，否则返回 false。
+
+- [] instanceof Array; // true
+
+**缺点:**
+
+- 但 instanceof 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。
+
+- [] instanceof Object; // true
+
+### Array.isArray
+
+功能：用来判断对象是否为数组
+
+### instanceof 与 isArray
+
+当检测 Array 实例时，Array.isArray 优于 instanceof ，因为 Array.isArray 可以检测出 iframes
+
+```js
+var iframe = document.createElement("iframe");
+document.body.appendChild(iframe);
+xArray = window.frames[window.frames.length - 1].Array;
+var arr = new xArray(1, 2, 3); // [1,2,3]
+
+// Correctly checking for Array
+Array.isArray(arr); // true
+Object.prototype.toString.call(arr); // true
+// Considered harmful, because doesn't work though iframes
+arr instanceof Array; // false
+```
+
+### Array.isArray() 与 Object.prototype.toString.call()
+
+Array.isArray()是 ES5 新增的方法，当不存在 Array.isArray() ，可以用 Object.prototype.toString.call() 实现。
+
+```js
+if (!Array.isArray) {
+  Array.isArray = function (arg) {
+    return Object.prototype.toString.call(arg) === "[object Array]";
+  };
+}
 ```
 
 ### 伪数组

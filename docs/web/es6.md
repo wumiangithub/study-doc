@@ -15,6 +15,27 @@ if (true) {
 }
 ```
 
+## const
+
+const 定义的数据类型，不能被修改,否则报错
+
+```js
+const a = 0;
+a = 0; //Assignment to constant variable.
+```
+
+```js
+const a = { b: 1 };
+a = 0; //Assignment to constant variable.
+```
+
+修改对象下的某一个属性不报错
+
+```js
+const a = { b: 1 };
+a.b = 0; //不报错
+```
+
 ## 块级作用域
 
 ## Set 和 Map 数据结构
