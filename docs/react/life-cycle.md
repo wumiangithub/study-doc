@@ -22,6 +22,24 @@
 
 1. componentWillUnmount 组件从 DOM 中被移除的时候调用
 
+### React16 废弃的生命周期有 3 个 will：
+
+- componentWillMount
+
+- componentWillReceiveProps
+
+- componentWillUpdate
+
+废弃的原因：是在 React16 的 Fiber 架构中，调和过程会多次执行 will 周期，不再是一次执行，失去了原有的意义。此外，多次执行，在周期中如果有 setState 或 dom 操作，会触发多次重绘，影响性能，也会导致数据错乱。
+
+### React16 的 2 个新的生命周期：
+
+- getDerivedStateFromProps
+
+- getSnapshotBeforeUpdate
+
+[参考](https://cloud.tencent.com/developer/article/1769282)
+
 ## 详解生命周期：7 种方法
 
 ### 创建阶段：只触发一次

@@ -99,6 +99,56 @@ class Example extends React.Component {
 
 因为更改 state 的函数必须是纯函数
 
+## REACT 函数 BIND(THIS)的三种方式
+
+用 bind 是防止 this 指向错误
+
+```js
+// 1.在调用地方直接bind(this)
+
+handleClick(){
+
+this.setState({
+
+word2:'word2 changed'
+
+})
+
+}
+
+<button onClick={this.handleClick.bind(this)}>点击</button>
+
+// 2、使用ES6 箭头函数
+
+handleClick=()=>{
+
+this.setState({
+
+word2:'word2 changed'
+
+})
+
+}
+
+<button onClick={this.handleClick}>点击</button>
+
+// 3、构造函数中bind(this)
+
+constructor(props){
+
+super(props);
+
+this.state=({
+
+word2:'word2'
+
+})
+
+this.handleClick = this.handleClick.bind(this);
+
+}
+```
+
 ## 文档
 
 [官网](https://zh-hans.reactjs.org/docs/getting-started.html)

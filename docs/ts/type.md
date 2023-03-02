@@ -194,3 +194,7 @@ type Partial<T> = {
   [P in keyof T]?: T[P]
 }
 ```
+
+## 交叉类型 &
+
+## 联合类型 |

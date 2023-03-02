@@ -173,6 +173,8 @@ reactive 与 ref 区别
 - reactive 都不需要.value
   注意 reactive 当访问到某个响应式数组或 Map 这样的原生集合类型中的 ref 元素时，不会执行 ref 的解包：需要.value
 
+### 创建响应式数据
+
 ```js
 export default defineComponent({
   setup(props) {
@@ -185,7 +187,7 @@ export default defineComponent({
 });
 ```
 
-### ref 的解包：
+### reactive 对 ref 的解包：
 
 ```js
 const count = ref(1);
@@ -205,7 +207,7 @@ console.log(obj.count); // 3
 console.log(count.value); // 3
 ```
 
-### 注意 reactive 当访问到某个响应式数组或 Map 这样的原生集合类型中的 ref 元素时，不会执行 ref 的解包：
+### 注意 reactive 当访问到响应式数组或 Map 这样的原生集合类型，不会执行 ref 的解包：
 
 ```js
 const books = reactive([ref("Vue 3 Guide")]);
@@ -215,6 +217,10 @@ console.log(books[0].value);
 const map = reactive(new Map([["count", ref(0)]]));
 // 这里需要 .value
 console.log(map.get("count").value);
+```
+
+```js
+
 ```
 
 > [ref、reactive、toRef、toRefs 的区别](https://blog.csdn.net/u010059669/article/details/112287552)
@@ -259,7 +265,7 @@ state.nested.bar++;
 
 ## toRef & toRefs
 
-### toRef
+### toRef 解构 reactive 上的一个属性
 
 - 基于响应式对象上的一个属性，创建一个对应的 ref  
   即使源属性当前不存在，toRef() 也会返回一个可用的 ref。这让它在处理可选 props 的时候格外实用，相比之下 toRefs 就不会为可选 props 创建对应的 refs
@@ -281,11 +287,6 @@ state.foo++;
 console.log(fooRef.value); // 3
 ```
 
-- toRef() 这个函数在你想把一个 prop 的 ref 传递给一个组合式函数时会很有用  
-   当 toRef 与组件 props 结合使用时，关于禁止对 props 做出更改的限制依然有效。  
-   尝试将新的值传递给 ref 等效于尝试直接更改 props，这是不允许的。  
-   在这种场景下，你可能可以考虑使用带有 get 和 set 的 computed 替代。
-
 ```js
 import { toRef } from "vue";
 
@@ -299,6 +300,9 @@ useSomeFeature(toRef(props, "foo"));
 ### toRefs
 
 - 将一个响应式对象转换为一个普通对象，这个普通对象的每个属性都是指向源对象相应属性的 ref。每个单独的 ref 都是使用 toRef() 创建的。
+- toRefs 在调用时只会为源对象上可以枚举的属性创建 ref。如果要为可能还不存在的属性创建 ref，请改用 toRef。
+
+### toRefs 结构后需要加.value
 
 ```js
 const state = reactive({
@@ -307,12 +311,6 @@ const state = reactive({
 });
 
 const stateAsRefs = toRefs(state);
-/*
-stateAsRefs 的类型：{
-  foo: Ref<number>,
-  bar: Ref<number>
-}
-*/
 
 // 这个 ref 和源属性已经“链接上了”
 state.foo++;
@@ -322,6 +320,17 @@ stateAsRefs.foo.value++;
 console.log(state.foo); // 3
 
 let { foo, bar } = stateAsRefs; // 可以解构而不会失去响应性, 也可以对props操作
+```
+
+## toRef & toRefs 结构 props
+
+- 当 toRef 与组件 props 结合使用时，关于禁止对 props 做出更改的限制依然有效。  
+  尝试将新的值传递给 ref 等效于尝试直接更改 props，这是不允许的。  
+  在这种场景下，你可能可以考虑使用带有 get 和 set 的 computed 替代。
+
+```js
+const fooRef = toRef(props, "foo");
+const { foo } = toRefs(props, "foo");
 ```
 
 ## toRow & markRaw
@@ -541,6 +550,31 @@ const myDirective = {
 ## EventBus 与 mitt 区别？
 
 vue3 移除了 EventBus ，如果需要使用相同功能可以使用辅助库 mitt，同样具有 on、emit、off 方法，而且压缩后仅有 200 bytes
+
+## KeepAlive 是一个内置组件
+
+**它会根据组件的 name 选项进行匹配**
+
+- include
+- exclude
+- max
+
+```
+<!-- 以英文逗号分隔的字符串 -->
+<KeepAlive include="a,b">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- 正则表达式 (需使用 `v-bind`) -->
+<KeepAlive :include="/a|b/">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- 数组 (需使用 `v-bind`) -->
+<KeepAlive :include="['a', 'b']">
+  <component :is="view" />
+</KeepAlive>
+```
 
 ## 生态
 

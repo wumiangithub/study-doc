@@ -7,10 +7,50 @@
     <title>Document</title>
   </head>
   <body>
-    <div style="height: 300vh"></div>
+    <div style="height: 300vh">
+      <div class="A" style="font-size: 30px">
+        A
+        <div class="B" style="font-size: 30px">
+          B
+          <p style="font-size: 30px">&#128513;P</p>
+        </div>
+      </div>
+    </div>
     <script>
-      const a = 0;
-      a = 0;
+      const p = document.querySelector("p");
+      p.addEventListener(
+        "mousedown",
+        (event) => {
+          // event.cancelBubble = true
+          event.stopPropagation();
+          console.log("我是p元素上被绑定的第一个监听函数: mousedown");
+        },
+        false
+      );
+
+      p.addEventListener(
+        "mousedown",
+        (event) => {
+          console.log("我是p元素上被绑定的第二个监听函数: mousedown");
+        },
+        false
+      );
+      document.querySelector(".A").addEventListener(
+        "mousedown",
+        (event) => {
+          // event.cancelBubble = true
+          event.stopPropagation();
+          console.log("我是div & class A元素");
+        },
+        false
+      );
+      document.querySelector(".B").addEventListener(
+        "mousedown",
+        (event) => {
+          console.log("我是div & class B元素");
+        },
+        false
+      );
     </script>
   </body>
 </html>
