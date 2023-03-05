@@ -89,3 +89,7 @@ https://www.qibi.work/project/152/menu/task
 为了能让不同源中文档进行交流，可以使用 **window.postMessage**。
 
 [参考:mozilla](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy)
+
+## 高阶函数定义
+
+高阶函数英文叫 Higher-order function。高阶函数是对其他函数进行操作的函数，操作可以是将它们作为参数，或者返回它们。简单总结为高阶函数是一个接收函数作为参数或者将函数作为返回输出的函数。

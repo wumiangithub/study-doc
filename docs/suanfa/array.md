@@ -70,7 +70,9 @@ arr.sort((a, b) => a["id"].localeCompare(b["id"]));
 arr1.sort((a, b) => a.localeCompare(b));
 ```
 
-### 数组 sort 排序原理
+## 数组 sort 排序原理
+
+V8 引擎 sort 函数只给出了两种排序 InsertionSort 和 QuickSort，数量小于等于 22 的数组使用 InsertionSort，比 22 大的数组则使用 QuickSort，有兴趣的可以看看具体算法实现
 
 **注意： 这种方法会改变原始数组！。**
 
@@ -182,7 +184,7 @@ fruits.splice(2, 1, "Lemon", "Kiwi"); //Banana,Orange,Lemon,Kiwi,Mango
 
 **pop() 方法会改变原始数组。**
 
-## reduce数组求和
+## reduce 数组求和
 
 ```js
 /** es6 */

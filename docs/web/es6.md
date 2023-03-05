@@ -36,6 +36,22 @@ const a = { b: 1 };
 a.b = 0; //不报错
 ```
 
+## for 循环中 let 和 var
+
+```js
+for (var i = 0; i < 5; i++) {
+  setTimeout(function () {
+    console.log(i); //5 5 5 5 5
+  });
+}
+
+for (let i = 0; i < 5; i++) {
+  setTimeout(function () {
+    console.log(i); //0 1 2 3 4
+  });
+}
+```
+
 ## 块级作用域
 
 ## Set 和 Map 数据结构

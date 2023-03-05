@@ -6,51 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
   <body>
-    <div style="height: 300vh">
-      <div class="A" style="font-size: 30px">
-        A
-        <div class="B" style="font-size: 30px">
-          B
-          <p style="font-size: 30px">&#128513;P</p>
-        </div>
-      </div>
+    <style>
+      .parent {
+        width: 300px;
+        height: 200px;
+        background: pink;
+      }
+      .child {
+        height: 50px;
+        flex: auto;
+      }
+
+      .child1 {
+        width: 50px;
+        background-color: yellow;
+      }
+
+      .child2 {
+        width: 80px;
+        background-color: aqua;
+        margin-left: -20px;
+      }
+    </style>
+    <div class="parent">
+      <div class="child child1">child1</div>
+      <div class="child child2">child2</div>
     </div>
     <script>
-      const p = document.querySelector("p");
-      p.addEventListener(
-        "mousedown",
-        (event) => {
-          // event.cancelBubble = true
-          event.stopPropagation();
-          console.log("我是p元素上被绑定的第一个监听函数: mousedown");
-        },
-        false
-      );
+      function add(a) {
+        function sum(b) {
+          // 使用闭包
+          a = a + b; // 累加
+          return sum;
+        }
+        sum.toString = function () {
+          // 重写toString()方法
+          return a;
+        };
+        return sum; // 返回一个函数
+      }
 
-      p.addEventListener(
-        "mousedown",
-        (event) => {
-          console.log("我是p元素上被绑定的第二个监听函数: mousedown");
-        },
-        false
-      );
-      document.querySelector(".A").addEventListener(
-        "mousedown",
-        (event) => {
-          // event.cancelBubble = true
-          event.stopPropagation();
-          console.log("我是div & class A元素");
-        },
-        false
-      );
-      document.querySelector(".B").addEventListener(
-        "mousedown",
-        (event) => {
-          console.log("我是div & class B元素");
-        },
-        false
-      );
+      console.log(add(1)); // 1
+      console.log(add(1)(2)); // 3
+      console.log(add(1)(2)(3)); // 6
     </script>
   </body>
 </html>

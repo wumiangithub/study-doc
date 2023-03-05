@@ -183,6 +183,20 @@ display: inline-grid;
 
 ### 三列布局
 
+## 子元素的 margin-top 绑架了父元素，在父元素上生效了。解决办法：
+
+- 1、设置父元素或者自身的 display:inline-block;
+
+- 2、设置父元素的 border:1px aqua solid;(>0)
+
+- 3、设置父元素的 padding:1px;(>0)
+
+- 4、给父元素设置 overflow:hidden;
+
+- 5、给父元素或者自身设置 position:absolute;
+
+- 6、设置父元素非空，填充一定的内容。
+
 ## 文档
 
 [14 个你需要知道的实用 CSS 技巧](https://mp.weixin.qq.com/s/g_INV0FSQDButK2AQNg7qw)

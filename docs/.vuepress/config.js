@@ -43,6 +43,7 @@ module.exports = {
           { text: "android", link: "/android/" },
           { text: "ios", link: "/ios/" },
           { text: "electron", link: "/electron/" },
+          { text: "真题", link: "/zhenti/" },
           { text: "其他", link: "/other/" },
         ],
       },
@@ -136,7 +137,7 @@ module.exports = {
             ["safe", "网络安全"],
             ["css", "css"],
             ["less", "less"],
-            ["sass", "sass"],
+            ["scss", "scss"],
             ["regexp", "正则"],
             ["weiqianduan", "微前端"],
             ["canvas", "canvas"],
@@ -163,7 +164,16 @@ module.exports = {
       "/vue2_source_code/": [""],
       "/vue3_source_code/": [""],
       "/flutter/": [""],
-      "/node/": [""],
+      "/node/": [
+        {
+          title: "node",
+          collapsable: true,
+          children: [
+            ["", "node"],
+            ["nginx", "nginx"],
+          ],
+        },
+      ],
       "/uniapp/": [""],
       "/taro/": [""],
       "/wx_mini/": [
@@ -225,6 +235,16 @@ module.exports = {
             ["", "ios"],
             ["Swift", "Swift"],
             ["Objective-C", "Objective-C"],
+          ],
+        },
+      ],
+      "/zhenti/": [
+        {
+          title: "真题",
+          collapsable: true,
+          children: [
+            ["", "真题"],
+            ["mihayou", "米哈游"],
           ],
         },
       ],
