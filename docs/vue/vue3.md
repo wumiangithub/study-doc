@@ -63,7 +63,7 @@ export default {
 };
 ```
 
-### setup 中怎么获取 options api 中 data 中的数据
+## setup 中怎么获取 options api 中 data 中的数据
 
 - 通过函数传参
 

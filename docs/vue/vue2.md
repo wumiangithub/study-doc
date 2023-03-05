@@ -3,6 +3,7 @@
 #### vue 2.0 是什么时候正式发布？
 
 `2016年10月1日`
+https://github.com/vuejs/vue/releases?page=12
 
 #### 动态路由
 

@@ -1,8 +1,15 @@
 # vue
 
-#### vue 是什么时候正式发布？
+### vue 是什么时候正式发布？
 
 `2013年12月8日`
+
+https://github.com/vuejs/vue/releases?page=25
+
+### 1.0 发布
+
+`2015年10月27日`
+https://github.com/vuejs/vue/releases?page=17
 
 ## 什么是 MVVM？
 
