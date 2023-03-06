@@ -63,9 +63,53 @@ export default {
 };
 ```
 
-## setup 中怎么获取 options api 中 data 中的数据
+## setup 函数 中怎么获取 options api 中 data 中的数据
 
-- 通过函数传参
+1. **通过函数传参获取**
+2. **通过 getCurrentInstance 获取 data 中的数据**
+   - 只不过在初始化的时候是获取不到的, 因为 setup 在 data 之前初始化
+
+**script setup 也可以通过 getCurrentInstance 获取 data 中的数据**
+**options 也通过函数传参获取 setup 中的数据**
+
+### 通过 getCurrentInstance 获取 data 中的数据
+
+```js
+<script>
+import { reactive, getCurrentInstance } from "vue";
+
+export default {
+  setup() {
+    const Instance = getCurrentInstance();
+    console.log(Instance.data.message); //undefined
+    function fn1() {
+      console.log(Instance.data.message); //hello  world
+    }
+    let list2 = reactive([1, 2]);
+    return {
+      list2,
+      fn1,
+    };
+  },
+  data() {
+    return {
+      message: "hello  world",
+    };
+  },
+  methods: {
+    init() {
+      console.log(this.list2); //[1,2]
+      this.fn1();
+    },
+  },
+  mounted() {
+    this.init();
+  },
+};
+</script>
+```
+
+### 通过函数传参
 
 ```
 <div v-on:click="fun(testdata)"></div>
@@ -82,7 +126,17 @@ data(){
 }
 ```
 
-### setup 如何访问路由
+## options 中的生命周期，或者 methods 中怎么获取 setup 函数 中的数据和方法
+
+- **直接通过 this 就可以, 并且不会丢失响应式**
+
+- **options 中的生命周期，或者 methods 中无法直接获取 script setup 中的数据和方法**
+
+- **setup 函数和 script setup 只能二选一，而且 script setup 优先级更高,setup 函数中定义的将不会生效**
+
+- **script setup 可以和 data 一起使用，不过优先级高于 data**
+
+## setup 如何访问路由 useRoute/useRouter
 
 ```js
 import { onMounted } from "vue";
@@ -152,6 +206,60 @@ setup (props, context) {
 
 ```
 
+## reactive 申明的对象不能直接赋值，会丢失响应式
+
+只能对其中的一个属性赋值
+
+```js
+setup() {
+    const Instance = getCurrentInstance();
+    let list2 = reactive({ list: [1, 2], msg: "hahah" });
+    //return 之前还能对整体，赋一次值会生效
+    list2 = { list: [1, 2, 3], msg: "6666" }; //错误 页面只会渲染1,2,3, 后面在对list操作将丢失响应式
+    function init1() {
+      list2 = { list: [1, 2, 3, 4], msg: "7777" }; //数据跟新，页面不跟新
+      list2.msg = "88888"; //数据跟新，页面不跟新
+      console.log(list2); //{ list:  [1, 2, 3, 4], msg : "88888"}
+    }
+    return {
+      list2,
+      init1,
+    };
+  },
+```
+
+```js
+ setup() {
+    const Instance = getCurrentInstance();
+    let list2 = reactive({ list: [1, 2], msg: "hahah" });
+    function init1() {
+      // return 之后在赋值将完全不生效
+      list2 = { list: [1, 2, 3, 4], msg: "7777" }; //错误 页面只会渲染1,2，后面在对list操作将丢失响应式
+      list2.msg = "88888"; //数据跟新，页面不跟新
+      console.log(list2); //{ list:  [1, 2, 3, 4], msg : "88888"}
+    }
+    return {
+      list2,
+      init1,
+    };
+  },
+```
+
+## reactive 中不能只申明数组，数组需要挂载到对象下的一个属性中，不然没有响应式
+
+### 页面不会响应，数组需要挂载到对象下的一个属性下
+
+```js
+<script setup>
+import {reactive} from 'vue;
+let arr=reactive([{name:'123',value:'123'},{name:'456',value:'456'}]);
+
+let changeArr=()=>{
+	arr.splice(0,1) //页面不会响应，数组需要挂载到对象下的一个属性下
+}
+</script>
+```
+
 ## ref、reactive
 
 reactive 与 ref 区别
@@ -188,6 +296,8 @@ export default defineComponent({
 ```
 
 ### reactive 对 ref 的解包：
+
+**解包就是不需要使用.value 就能获取到值**
 
 ```js
 const count = ref(1);
@@ -521,7 +631,10 @@ vue-cli 基于 webpack 封装，生产环境和开发环境都是基于 Webpack 
 
 ## 7 个指令钩子
 
-一个指令的定义对象可以提供几种钩子函数 (都是可选的)：
+- setup 中定义指令使用的是 v + 指令名字
+- options 中定义指令是在 directives 中
+
+- 一个指令的定义对象可以提供几种钩子函数 (都是可选的)：
 
 ```js
 const myDirective = {
@@ -575,6 +688,16 @@ vue3 移除了 EventBus ，如果需要使用相同功能可以使用辅助库 m
   <component :is="view" />
 </KeepAlive>
 ```
+
+## Reflect.defineProperty 和 Object.defineProperty 区别
+
+- 静态方法 Reflect.defineProperty() 基本等同于 Object.defineProperty() 方法，唯一不同是返回值。
+- Object.defineProperty 方法，如果成功则返回一个对象，否则抛出一个 TypeError 。
+- 另外，当定义一个属性时，你也可以使用 try...catch 去捕获其中任何的错误。
+- 而因为 Reflect.defineProperty 返回 Boolean 值作为成功的标识，所以只能使用 if...else ：
+
+[mdn 参考:Reflect.defineProperty](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Reflect/defineProperty)  
+[mdn 参考:Object.defineProperty](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
 
 ## 生态
 
