@@ -13,49 +13,25 @@
     }
   </style>
   <body>
-    <style>
-      .parent {
-        width: 300px;
-        height: 200px;
-        background: pink;
-      }
-      .child {
-        height: 50px;
-        flex: auto;
-      }
-
-      .child1 {
-        width: 50px;
-        background-color: yellow;
-      }
-
-      .child2 {
-        width: 80px;
-        background-color: aqua;
-        margin-left: -20px;
-      }
-    </style>
+    <style></style>
     <div class="parent">
-      <div class="child child1">child1</div>
-      <div class="child child2">child2</div>
+      <ul id="ul">
+        <li data-id="a">1</li>
+        <li data-id="b">2</li>
+        <li data-id="c">3</li>
+        <li data-id="d">4</li>
+      </ul>
     </div>
     <script>
-      function add(a) {
-        function sum(b) {
-          // 使用闭包
-          a = a + b; // 累加
-          return sum;
-        }
-        sum.toString = function () {
-          // 重写toString()方法
-          return a;
-        };
-        return sum; // 返回一个函数
-      }
-
-      console.log(add(1)); // 1
-      console.log(add(1)(2)); // 3
-      console.log(add(1)(2)(3)); // 6
+      let ul = document.getElementById("ul");
+      ul.onclick = function (event) {
+        console.log(
+          event,
+          event.target,
+          event.target.dataset,
+          event.target.dataset.id
+        );
+      };
     </script>
   </body>
 </html>

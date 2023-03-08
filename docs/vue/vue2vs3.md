@@ -53,6 +53,7 @@ const asyncModalWithOptions = defineAsyncComponent({
 - 过滤器 (filter)
 - 移除 $listeners ($listeners 对象在 Vue 3 中已被移除。事件监听器现在是 $attrs 的一部分：)
 - $children (在 2.x 中，开发者可以使用 this.$children 访问当前实例的直接子组件, 3.x 我们建议使用模板引用 this.$refs。)
+- keyCodes 中数字被移除 v-on:keyup.13="submit"
 
 ### 其他
 

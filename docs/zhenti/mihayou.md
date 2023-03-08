@@ -49,7 +49,15 @@ div ::v-deep .cla {
 
 ## 组件懒加载
 
+- npm install vue-lazyload --save 图片懒加载
+- component: resolve=>(require(["@/components/HelloWorld"],resolve)) } ] })
+- component: () => import(/_ webpackChunkName: "con" _/ './xxx.vue') 配合 SplitChunksPlugin 代码分割插件默认只处理异步 chunk
+- runtime 分包 : 配置方法：entry.runtime (webpack5) 或 optimization.runtimeChunk
+
 ## es6 的新特征
+
+[自己笔记 es6：参考](/web/es6.html)  
+[自己笔记 es6 前十特性：参考](/web/mianshi1.html#es6-排名前十的最佳特性)
 
 ## Vue 生命周期
 
@@ -61,41 +69,178 @@ div ::v-deep .cla {
 
 方法：利用 axios 的 CancelToken 取消还没执行完毕的异步请求，由路由守卫做处理，使用 pnia 将要取消的请求放入全局进行状态管理。
 
-## $slots,$listeners,
+## $attrs
+
+除了 props 和 style 和 class 定义的东西，可以通过 v-bind="$attrs" 将父组件传递的东西，传给子组件
+
+- inheritAttrs: false 的含义是不希望本组件的根元素继承父组件的 attribute，默认是 true. 同时父组件传过来的属性（没有被子组件的 props 接收的属性），也不会显示在子组件的 dom 元素上，但是在组件里可以通过其$attrs 可以获取到没有使用的注册属性, `inheritAttrs: false`是不会影响 style 和 class 的绑定
+
+## $listeners
+
+包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。它可以通过 v-on="$listeners" 传入内部组件
+
+- 移除 $listeners ($listeners 对象在 Vue 3 中已被移除。事件监听器现在是 $attrs 的一部分：)
+
+- $attrs和$listeners 在配合 inheritAttrs: false, // 默认是 true 就可以将属性不挂到 html 上
+
+- $attrs/$listeners 也可以适合隔代组件通信
+
+- 组件传值时使用： 爷爷在父亲组件传递值，父亲组件会通过$attrs获取到不在父亲props里面的所有属性，父亲组件通过在孙子组件上绑定$attrs 和 $listeners 使孙组件获取爷爷传递的值并且可以调用在爷爷那里定义的方法；
+
+```
+在中间组件parent:<\child v-bind="$attrs" v-on="$listeners"><\/child>
+在child组件直接props获取爷爷传递的值并且可以调用在爷爷那里定义的方法
+在爷爷组件直接:像引用子组件一样调用孙组件$emit方法
+```
+
+```
+provide/inject 父组件给孙子组件传值 需要传递对象类型，不然不是响应式的。
+provide 写在祖先上，在孙组件上直接 inject
+```
+
+## $slots,
+
+在渲染函数中，可以通过 this.$slots 来访问插槽：
+
+```js
+export default {
+  props: ["message"],
+  render() {
+    return [
+      // <div><slot /></div>
+      h("div", this.$slots.default()),
+
+      // <div><slot name="footer" :text="message" /></div>
+      h(
+        "div",
+        this.$slots.footer({
+          text: this.message,
+        })
+      ),
+    ];
+  },
+};
+```
+
+```js
+// <div><slot /></div>
+<div>{this.$slots.default()}</div>
+
+// <div><slot name="footer" :text="message" /></div>
+<div>{this.$slots.footer({ text: this.message })}</div>
+
+```
 
 ## slot 使用,
+
+定义插槽
+
+```html
+<div class="container">
+  <header>
+    <slot name="header"></slot>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+  <footer>
+    <slot name="footer"></slot>
+  </footer>
+</div>
+```
+
+使用插槽
+
+<!-- v-slot 有对应的简写 #，因此 <template v-slot:header> 可以简写为 <template #header> -->
+
+```html
+<BaseLayout>
+  <template v-slot:header>
+    <!-- header 插槽的内容放这里 -->
+  </template>
+</BaseLayout>
+```
+
+```html
+<BaseLayout>
+  <template #header>
+    <!-- header 插槽的内容放这里 -->
+  </template>
+</BaseLayout>
+```
 
 ## watch、computed 区别与场景,
 
 ## promise 状态、使用,
 
-## promise 状态、使用,
+**Promise 的三种状态**
+
+1. pending ：等待状态，比如正在进行网络请求。
+2. fulfil： 满足状态，当我们主动回调了 resolve()时，接口调用成功，就处于该状态，并且会回调.then()
+3. rejcet： 拒绝状态,当我们主动回调了 reject()时，接口调用失败，就处于该状态，并且会回调.catch()
 
 ## v-if 从 true 到 false 的过程，
 
+- v-show 由 false 变为 true 的时候不会触发组件的生命周期。是控制 css 的 display 是否为 none 来隐藏或展示
+- v-if 由 false 变为 true 的时候，触发组件的 beforeCreate、create、beforeMount、mounted 钩子，
+- 由 true 变为 false 时触发组件的 beforeDestory、destoryed 方法。
+- v-if 有更高的切换消耗，v-show 有更高的初始渲染消耗。
+
 ## 实现浅拷贝/深拷贝方法？每个方法怎么实现的？
+
+[自己笔记:深浅拷贝](/web/mianshi.html#js-深拷贝浅拷贝有哪几种方式)
 
 ## 事件委托原理？场景？
 
+**原理：**
+事件委托就是基于 js 的事件流产生的，事件委托是利用事件冒泡，将事件加在父元素或者祖先元素上，触发该事件
+
+```html
+<ul id="ul">
+  <li data-id="a">1</li>
+  <li data-id="b">2</li>
+  <li data-id="c">3</li>
+  <li data-id="d">4</li>
+</ul>
+```
+
+```js
+let ul = document.getElementById("ul");
+ul.onclick = function (event) {
+  console.log(
+    event,
+    event.target,
+    event.target.dataset,
+    event.target.dataset.id
+  );
+};
+```
+
 ## webpack 的 loader 和 plugin 有啥区别
+
+[参考自己笔记:webpack](/webpack/mianshi.html#loader-和-plugin-的区别是什么)
 
 ## 事件循环
 
 ## vue 组件传值
 
-## v-if v-show 区别
-
 ## git 命令
 
-## v-if 从 true 到 false 的过程，
-
-## 实现浅拷贝/深拷贝方法？每个方法怎么实现的？
+- git rebase -i 合并多个 commit
 
 ## vue 响应式原理
 
 ## 改变 this 指向 call apply bind
 
+[自己笔记:参考](/web/mianshi.html#改变-this-指向-call-apply-bind)
+
 ## 怎么样通过 JS 去阻止冒泡
+
+- stopPropagation
+- stopImmediatePropagation
+- preventDefault
+
+[自己笔记:参考](/web/zhishi.html#preventdefault-与-stoppropagation-与-stopimmediatepropagation)
 
 ## 箭头函数和 function 函数区别
 
@@ -136,9 +281,10 @@ div ::v-deep .cla {
 .parent {
   display: flex;
   justify-content: center; //水平方向布局
-  align-items: center; //垂直方向布局
+  align-items: center; //垂直方向布局 (侧轴单行使用)
   flex-direction: row; //设置主轴的方向
   flex-wrap: wrap; //是否允许换行
+  align-content: center; // 设置侧轴的子元素的排列方式（多行才生效）
 }
 ```
 

@@ -155,6 +155,64 @@ data: {
 }
 ```
 
+[参考 w3c:wx:for](https://www.w3cschool.cn/weixinapp/weixinapp-list.html)
+
+## wxss 中引入图片资源
+
+- background-image 不支持本地图片
+- background-image 支持网络图片和 base64 格式
+
+## image 设置图片之后还可以设置背景色
+
+```
+<image src="../../images/index_time_2.png" mode="" class="line"/>
+.line{
+background: #F2F5FC;
+}
+```
+
+## 小程序父子组件传值
+
+### 子组件通过 properties
+
+### 父组件直接赋值到子组件上
+
+## 小程序组件需要在 json 文件中申明 "component": true,
+
+组件中可以将方法写在 methods 中
+
+```js
+// components/xingcheng-feiyong/xingcheng-feiyong.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    mingxi: { type: Array, value: [] },
+    title: { type: String, value: "" },
+    total: { type: String, value: "" },
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    fold: true,
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    onFold() {
+      this.setData({
+        fold: !this.data.fold,
+      });
+    },
+  },
+});
+```
+
 ## 微信小程序第三方组件库
 
 - @vant/weapp
