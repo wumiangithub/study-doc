@@ -417,6 +417,22 @@ async init() {
 
 Promise.race 是赛跑的意思，也就是说 Promise.race([p1, p2, p3])里面的结果哪个获取的快，就返回哪个结果，不管结果本身是成功还是失败
 
+```js
+var p1 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 500, "one");
+});
+var p2 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 100, "two");
+});
+
+Promise.race([p1, p2]).then(function (value) {
+  console.log(value); // "two"
+  // 两个都完成，但 p2 更快
+});
+```
+
+[参考 mdn:promise](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/race)
+
 ## css 实现元素居中的 5 种方法
 
 ```html

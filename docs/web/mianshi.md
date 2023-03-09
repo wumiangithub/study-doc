@@ -73,6 +73,10 @@ Object.prototype.toString.call({ name: "An" }); // "[object Object]"
 - 但 instanceof 只能用来判断对象类型，原始类型不可以。并且所有对象类型 instanceof Object 都是 true。
 
 - [] instanceof Object; // true
+- new Date() instanceof Object //true
+- new Object() instanceof Object //true
+- {} instanceof Object //true
+- new Object() instanceof Array //false
 
 ### Array.isArray
 
@@ -139,6 +143,18 @@ Object.prototype.toString.call(fakeArray) === "[object Object]";
 //常用于将伪数组转换为数组
 Array.prototype.slice.call(arguments);
 ```
+
+## prototype 和 **proto**
+
+- 原型对象 prototype
+  - 每个函数都有一个 prototype 属性，可以称之为**显式原型属性**。
+- 每个实例对象都有一个 **proto**属性，可以称之为**隐式原型属性**。
+- 实例对象的隐式原型的值和其构造函数的显式原型的值所对应。
+  - f.**proto** === F.prototype
+- prototype 用于构造函数
+- **proto**用于原型链查找
+
+[prototype 和**proto**原型链：参考-非常好](https://blog.csdn.net/weixin_44384728/article/details/125951909)
 
 ## 改变 this 指向 call apply bind
 

@@ -61,7 +61,7 @@ loadMicroApp({
 });
 ```
 
-### 微应用生命周期
+## 微应用生命周期
 
 **微应用不需要额外安装任何其他依赖即可接入 qiankun 主应用。**
 
@@ -103,6 +103,25 @@ export async function unmount(props) {
 export async function update(props) {
   console.log("update props", props);
 }
+```
+
+## 微应用 webpack 配置导出 umd 格式
+
+- 1. 新增 public-path.js 文件，用于修改运行时的 publicPath
+- 2. 微应用建议使用 history 模式的路由，需要设置路由 base，值和它的 activeRule 是一样的
+- 3. 在入口文件最顶部引入 public-path.js，修改并导出三个生命周期函数。
+- 4. 修改 webpack 打包，允许开发环境跨域和 umd 打包。
+
+```js
+const packageName = require("./package.json").name;
+
+module.exports = {
+  output: {
+    library: `${packageName}-[name]`,
+    libraryTarget: "umd",
+    jsonpFunction: `webpackJsonp_${packageName}`,
+  },
+};
 ```
 
 [qiankun 官网](https://qiankun.umijs.org/zh/)

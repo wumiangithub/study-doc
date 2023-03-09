@@ -443,9 +443,9 @@ const fooRef = toRef(props, "foo");
 const { foo } = toRefs(props, "foo");
 ```
 
-## toRow & markRaw
+## toRaw & markRaw
 
-- toRow
+- toRaw
   根据一个 Vue 创建的代理返回其原始对象。
   toRaw() 可以返回由 reactive()、readonly()、shallowReactive() 或者 shallowReadonly() 创建的代理对应的原始对象。
 

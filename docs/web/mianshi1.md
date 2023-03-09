@@ -88,3 +88,17 @@ console.log(obj.getAge()); //动态计算出每年的年龄
     typeof s;
     // "symbol"
     ```
+
+## import 和 require 区别
+
+- require 是运行时调用，所以 require 理论上可以运用在代码的任何地方
+- import 是编译时调用，所以必须放在文件开头
+
+- import 引入的对象被修改时，源对象也会被修改，相当于浅拷贝，
+- require 引入的对象被修改时，源对象不会被修改，官网称值拷贝，我们可以理解为深拷贝。
+- import 有利于 tree-shaking（移除 JavaScript 上下文中未引用的代码），require 对 tree-shaking 不友好。
+
+## import 和 import() 函数
+
+- import()函数它是运行时执行，也就是说，什么时候运行到这一句，就会加载指定的模块。
+- import()类似于 Node 的 require 方法，区别主要是前者是异步加载，后者是同步加载。

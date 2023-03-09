@@ -72,25 +72,26 @@ console.log(4);
 ## 多个 promise，先执行 promise 内部 promise 中的点 then
 
 ```js
-// 运算结果: 4、3、2、1
+// 运算结果: 4、9、3、2、1
 
 new Promise((resolve, reject) => {
   console.log(4);
   resolve(1);
 
   new Promise((resolve, reject) => {
+    console.log(9);
     resolve(2);
   }).then((data) => {
-    console.log(data);
+    console.log(data); //2
   });
 }).then((data) => {
-  console.log(data);
+  console.log(data); //1
 });
 
 console.log(3);
 ```
 
-### await 后面的方法属于同一个循环先执行，
+### await 后面的方法属于同一个循环先执行，await 下一步，等同于.then 要下一个循环
 
 ```js
 //请写出输出内容

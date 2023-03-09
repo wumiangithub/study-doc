@@ -485,7 +485,8 @@ window.webkit.messageHandlers.showMessage.postMessage({ type: "h5-callOc" });
 
 ### 协商缓存
 
-由服务器端确定缓存资源是否可用，设置一个标识符 Etag 来判断。
+- 由服务器端确定缓存资源是否可用，设置一个标识符 Etag 来判断。
+- 根据请求头中的 If-Modifed-Match 与文件的 mtime 时间进行比较 设置协商缓存
 
 ### 1、缓存方案，目前的项目大多使用这种缓存方案的：
 

@@ -245,6 +245,7 @@ module.exports = {
           children: [
             ["", "真题"],
             ["mihayou", "米哈游"],
+            ["mihayou2", "米哈游二面"],
           ],
         },
       ],
