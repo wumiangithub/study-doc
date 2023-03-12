@@ -247,7 +247,7 @@ JS Runtime 并不是单线程的，而是持有一个线程池，因此 WebAPI �
 
 ### 二：HTTPS 与 HTTP 的一些区别
 
-      1、HTTPS协议需要到CA申请证书，
+      1、HTTPS协议需要到CA申请证书 => SSL 证书，
 
       2、HTTP协议运行在TCP之上，所有传输的内容都是明文，HTTPS运行在SSL/TLS之上，SSL/TLS运行在TCP之上，所有传输的内容都经过加密的。
 
@@ -329,6 +329,49 @@ JS Runtime 并不是单线程的，而是持有一个线程池，因此 WebAPI �
 ## 简单讲解一下 http2 的多路复用
 
 多个请求可以公用一个 TCP 链接
+
+## SSL 证书与 CA 证书是同一种东西吗？SSL 证书与 CA 证书有什么区别？
+
+CA 机构属于一个主体，比如：Gworg CA 机构，然而 CA 机构可以颁发各种数字证书，其中包括 SSL 证书、邮件证书、加密证书、软件数字证书等等。所以 SSL 证书也是 CA 证书的一种。https 需要的其实就是 SSL 证书
+
+[SSL 证书与 CA 证书:参考](https://blog.csdn.net/qq_36445861/article/details/119785787)
+
+## ssl 怎么实现的
+
+- SSL（Secure Socket Layer）安全套接层是 Netscape 公司率先采用的网络安全协议。它是在传输通信协议（TCP/IP）上实现的一种安全协议，采用公开密钥技术。
+
+- 公开密钥加密技术
+  - l976 年，Diffie 和 Hellman 首次提出公开密钥加密体制，即每个人都有一对密钥，其中一个为公开的，一个为私有的。
+  - 也就是非对称加密
+  - 发送信息时用对方的公开密钥加密，收信者用自己的私用密钥进行解密。公开密钥加密算法的核心是运用一种特殊的数学函数一单向陷门函数，即从一个方向求值是容易的。但其逆向计算却很困难，从而在实际上成为不可行的。公开密钥加密技术它不仅保证了安全性又易于管理。其不足是加密和解密的时间长。
+
+## TLS 和 SSL 的差异
+
+- SSL（Secure Sockets Layer）是网景公司（Netscape）设计的主要用于 Web 的安全传输协议。
+- 这种协议在 Web 上获得了广泛的应用。IETF 将 SSL 作了标准化，即 RFC2246，并将其称为 TLS（Transport Layer Security），其最新版本是 RFC5246,版本 1.2。
+- 从技术上讲，TLS1.0 与 SSL3.0 的差异非常微小
+
+## SSL、SSH、SSR
+
+- SSL 主要用在 Browser 和 Server 通信，比如 HTTPS=HTTP+SSL , 端口 443
+- SSH 是由客户端和服务端的软件组成的，用于 computer 之间通信，比如我们通过 SSH 登录远端服务器。端口 22
+- SSR 指的是服务端渲染（Server-side Rendering）
+
+[SSL、SSH:参考](https://zhuanlan.zhihu.com/p/109746532)
+
+## webRTC
+
+- WebRTC 是一组 JAVAScript API，可以在两个浏览器之间建立点对点连接， 实现音频和视频等数据的传输，也可以用它创建有语音/视频通话功能的应用程序。
+
+- WebRTC 的特别之处是：一旦建立了连接，就可以直接在浏览器之间实时传输数据，不需要借助服务器，因此降低了延迟，所以用户都喜欢用 webRTC 直接传输音视频。
+
+## webSocket
+
+- WebSocket 是一种实时技术，可通过持久的单套接字 socket 连接在 Web 客户端和 Web 服务器之间实现全双工、双向通信。
+
+- WebSocket 连接以 HTTP 请求/响应握手开始。 如果此初始握手成功，则客户端和服务器已同意使用为 HTTP 请求建立的现有 TCP 连接作为 WebSocket 连接。 只要需要，这个连接就会一直保持活跃状态，允许服务器和客户端全双工的发送数据。
+
+- WebSocket 在 TCP 上工作，而 WebRTC 主要在 UDP 上。
 
 ## 原型链
 

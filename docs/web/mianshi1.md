@@ -14,6 +14,13 @@
 - 8.  Block-Scoped Constructs Let and Const（块作用域构造 Let and Const）
 - 9.  Classes（类） in ES6 ☑️
 - 10. Modules（模块） in ES6
+- 11. 函数参数的默认值
+
+## 箭头函数和 function 函数区别
+
+- this 指向不一样
+- 由于箭头函数没有自己的 this，所以当然也就不能用 call()、apply()、bind()这些方法去改变 this 的指向
+- 除了 this，以下三个变量在箭头函数之中也是不存在的，指向外层函数的对应变量：arguments、super、new.target。
 
 ### 箭头函数中的 this
 
@@ -55,6 +62,14 @@ console.log(obj.getAge()); //动态计算出每年的年龄
 ```
 
 [参考](https://blog.csdn.net/weixin_44806635/article/details/119777219)
+
+## 解构赋值，取出数组中指定下标的值
+
+```js
+let a = ["a", "b", "c", "d"];
+let { 1: i } = a;
+console.log(i); //b
+```
 
 ## HTML5 的十大新特性
 
