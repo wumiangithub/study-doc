@@ -94,6 +94,9 @@ useDeferredValue 接受一个值，并返回该值的新副本，该副本将推
 
 不同点：useTranstion 是把 startTranstion 内部的更新任务变成了过度任务 transtion，而 useDeferredValue 是把原值通过过度任务得到新的值，这个值作为延时状态，一个是处理逻辑，一个是生产一个新的状态
 
+- 本质上 useTranstion = useState + startTransition 。
+- 本质上 useDeferredValue = useState + useEffect + transition
+
 [useTranstion 和 useDeferredValue 原理](https://blog.csdn.net/weixin_43294560/article/details/121428955)
 
 ## Hook 规则

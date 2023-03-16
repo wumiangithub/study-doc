@@ -124,3 +124,5 @@ console.log(i); //b
 - 图片预加载就是提前加载到本地，然后用户要看的时候，直接从本地缓存取。
   - 一种是通过 css，但是 css 不能使用 display:none ,而是移动到看不见的地方，或者是宽高为 0
   - 通过 js 加载， new Image()
+
+## RESTful API 设计规范

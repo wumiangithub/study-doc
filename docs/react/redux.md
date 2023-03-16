@@ -101,6 +101,16 @@ let reducer = combineReducers({ visibilityFilter, todos });
 let store = createStore(reducer);
 ```
 
+## subscribe 手动订阅
+
+```js
+// API 是 { subscribe, dispatch, getState }。
+let store = createStore(counter);
+
+// 可以手动订阅更新，也可以事件绑定到视图层。
+store.subscribe(() => console.log(store.getState()));
+```
+
 ## 三大原则
 
 ### 单一数据源

@@ -30,9 +30,29 @@ diff 整体策略为：深度优先，同层比较
 
 - 深度优先，有子节点，就遍历子节点，没有子节点，就找兄弟节点，没有兄弟节点，就找叔叔节点，叔叔节点也没有的话，就继续往上找，它爷爷的兄弟，如果一直没找到，就代表所有的更新任务都更新完毕了
 
+- 其实 SSR 的时候就不用做 diff，因为会把组件渲染成字符串，第二次渲染也是产生字符串，难道这时候还要和之前的字符串对比下，有哪些字符串可以复用么？
+
+- vdom 转 fiber 的 reconcile 阶段
+
+## SSR 会有 diff 吗
+
+不需要，SSR 的时候就没有 diff，每次都是 vdom 渲染出新的字符串
+
+## React 的 diff 算法是分成两次遍历的
+
+- 第一个阶段一一对比，如果可以复用就下一个，不可以复用就结束。
+
+- 第二个阶段把剩下的老 fiber 放到 map 里，遍历剩余的 vdom，一一查找 map 中是否有可复用的节点。
+  - 最后把剩下的老 fiber 删掉，剩下的新 vdom 新增。
+  - 这样就完成了更新时的 reconcile 过程。
+
 ## react 的 diff 算法，是不同节点就替换吗
 
 [react-diff 算法参考](https://juejin.cn/post/7116141318853623839)
+
+## reconcile&scheducler&commit。
+
+浏览器下使用 react-dom 的渲染器，会先把 vdom 转成 fiber，找到需要更新 dom 的部分，打上增删改的 effectTag 标记，这个过程叫做 reconcile，可以打断，由 scheducler 调度执行。reconcile 结束之后一次性根据 effectTag 更新 dom，叫做 commit。
 
 ## react 的 diff 算法为什么不和 vue 一样采用双端算法
 
@@ -52,8 +72,8 @@ diff 整体策略为：深度优先，同层比较
   - 而 Vue3 则是把整个静态节点进行提升处理，Diff 的时候是不过进入循环的，所以 Vue3 比 Vue2 的 Diff 性能更高效。
   - 而 React 因为是通过 JSX 进行编译的，是无法进行静态节点分析的，所以 React 在对静态节点处理这一块是要逊色的。
 
-[react-diff vs vue-diff 算法参考](https://juejin.cn/post/7116141318853623839)
+[react-diff vs vue-diff 算法参考](https://juejin.cn/post/7116141318853623839)  
 [参考 1](https://zhuanlan.zhihu.com/p/534903909)  
 [参考 2](https://www.jianshu.com/p/a23546dc9897)  
 [react diff 算法:参考](https://juejin.cn/post/6844903944796258317)  
-[react hooks diff 算法:参考](https://zhuanlan.zhihu.com/p/553744711)
+[react hooks diff 算法:真棒-参考](https://zhuanlan.zhihu.com/p/553744711)

@@ -52,3 +52,7 @@ module.exports = {
 
 [参考](https://zhuanlan.zhihu.com/p/41795312)  
 [参考](https://blog.csdn.net/weixin_45047039/article/details/110387613)
+
+## 文档
+
+[webpack 官网](https://www.webpackjs.com/)
