@@ -155,3 +155,7 @@ document.querySelector(".B").addEventListener(
 ## js 事件代理(委托)
 
 addEventListener
+
+## package.json中的版本管理
+- ~
+- ^ 

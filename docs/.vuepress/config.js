@@ -95,6 +95,7 @@ module.exports = {
             ["vue2", "vue2"],
             ["vue3", "vue3"],
             ["vue3_mianshi", "vue3面试题"],
+            ["vue3_keng", "vue3坑"],
             ["nuxtjs", "nuxtjs"],
           ],
         },
