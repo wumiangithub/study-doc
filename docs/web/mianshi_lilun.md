@@ -522,6 +522,8 @@ window.webkit.messageHandlers.showMessage.postMessage({ type: "h5-callOc" });
 
 浏览器缓存位置一般分为四类： Service Worker-->Memory Cache-->Disk Cache-->Push Cache。
 
+[深入理解浏览器的缓存机制：参考](https://www.jianshu.com/p/54cc04190252)
+
 ### 强缓存：
 
 利用 http 头的 expires 与 cache-control 来控制，普通刷新会忽略它，不会清除，需要强制刷新。强制刷新时会带上 cache-control：no-cache；pragma：no-cache。

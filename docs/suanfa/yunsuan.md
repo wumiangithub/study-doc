@@ -241,3 +241,87 @@ function test() {
 }
 test();
 ```
+
+## 请求并发控制
+
+**同时有多个请求需要执行，但是同时请求有最大限制，每当一个请求成功，那么就在继续请求下一个，返回结果要按顺序返回。**
+
+```js
+function ajax(url, index_) {
+  return new Promise((resolve, reject) => {
+    let time = Math.random() * 1000;
+    setTimeout(() => {
+      resolve({ index_, data: "result:" + url });
+    }, time);
+  });
+}
+
+function multiRequest(urls, maxNum) {
+  let result = [];
+  let index = 0;
+  (function loop(maxNum) {
+    if (index < urls.length && index < maxNum) {
+      ajax(urls[index], index).then(({ index_, data }) => {
+        result[index_] = data;
+        loop(index + 1);
+      });
+      index++;
+      loop(maxNum);
+    }
+  })(maxNum);
+  return result;
+}
+let urls = ["api/a", "api/b", "api/c", "api/d", "api/e"];
+console.log(multiRequest(urls, 3));
+```
+
+## 发布订阅实现
+
+用一个对象数组存储，然后循环发布
+
+## 实现数组的 flat 方法
+
+```js
+const arr5 = [1, 2, [3, [4, 5]], [6, [7]], 8];
+
+function getFlatArr(list, deepNum = 1) {
+  let result = [];
+  (function flat(list, deepNum) {
+    list.forEach((item) => {
+      if (Array.isArray(item) && deepNum > 0) {
+        flat(item, deepNum - 1);
+      } else {
+        result.push(item);
+      }
+    });
+  })(list, deepNum); // flat(list,deepNum)  //不使用，立即执行函数那就主动掉一次也可以
+  return result;
+}
+console.log(getFlatArr(arr5, 5)); //[1, 2, 3, 4, 5, 6, 7, 8]
+console.log(getFlatArr(arr5, Infinity)); //[1, 2, 3, 4, 5, 6, 7, 8]
+console.log(getFlatArr(arr5)); //[1, 2, 3, Array(2), 6, Array(1), 8]
+```
+
+[js 中数组 flat 方法的使用和实现：参考](https://blog.csdn.net/weixin_43911758/article/details/120304962)
+
+## Promise 中的不要被 for 误导
+
+```js
+// 不要被for循环误导
+let a = new Promise((resolve, reject) => {
+  console.log(1);
+  for (let i = 0; i < 9999; i++) {
+    if (i == 9998) {
+      resolve();
+    }
+  }
+  reject();
+  console.log(3);
+});
+a.then((res) => {
+  console.log(4);
+}).catch((e) => {
+  console.log(8);
+});
+console.log(5); // 结果：1，3，5，4
+```

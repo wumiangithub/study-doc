@@ -411,6 +411,121 @@ display: inline-grid;
 
 [参考](https://www.runoob.com/css3/css-grid.html)
 
+## margin-bottom 和 margin-top
+
+- margin-bottom:30px
+- margin-top:20px
+- 两者之间的间隙是 30px
+
+## rem
+
+```
+使用
+npm i amfe-flexible   //根据window.devicePixelRatio设置根节点字体大小
+npm i postcss-px2rem  //px自动转rem
+```
+
+[移动端的 rem 适配：参考](https://blog.csdn.net/qq_56989560/article/details/124097757)
+
+设置 rem 大小:
+
+- 方式一
+  - document.documentElement.style.fontSize=(document.documentElement.clientWidth/750)\*100+'px';
+- 方式二:
+  - document.documentElement.style.fontSize='10vw';
+  - 即 1rem 等于屏幕宽度的 10 分之一(屏幕宽度为 100vw),若宽为 375px,则 1rem=37.5px;
+  - 1rem 就等于根节点字体大小
+- 监听窗口改变设置 rem
+  window.addEventlistener('resize',fn);
+- px2rem 或者使用 postcss-px2rem 将 px 自动转为 rem
+
+- rem 是 CSS 3 中新增的一种相对长度单位。当使用 rem 单位时，根节点 html 的字体大小(font-size)决定了 rem 的尺寸。
+
+- rem 单位类似于 em 单位，em 单位表示父元素字体大小，不同之处在于，rem 的基准是相对于 html 元素的字体大小。
+
+## em
+
+em 是相对于父级字体大小的一个百分比单位
+
+## 移动端 1px 问题
+
+- 使用 box-shadow 模拟边框
+
+```css
+.box-shadow-1px {
+  box-shadow: inset 0px -1px 1px -1px #c8c7cc;
+}
+```
+
+- 使用 background-image 实现
+
+```css
+.background-image-1px {
+  background: url(../img/line.png) repeat-x left bottom;
+  -webkit-background-size: 100% 1px;
+  background-size: 100% 1px;
+}
+```
+
+- 使用 border-image 实现
+
+```css
+div {
+  -moz-border-image: url(/i/border.png) 30 30 stretch; /* Old Firefox */
+  -webkit-border-image: url(border.png) 30 30 stretch; /* Safari 5 */
+  -o-border-image: url(border.png) 30 30 stretch; /* Opera */
+  border-image: url(border.png) 30 30 stretch;
+}
+```
+
+- 4、伪元素+transform
+  - 构建 1 个伪元素, border 为 1px, 再以 transform 缩放到 50%。
+
+```css
+/* 设计稿是750,采用1：100的比例,font-size为100*(100vw/750) */
+.border-1px {
+  position: relative;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  .border-1px:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
+    color: #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+}
+```
+
+- 5、用 JS 计算 rem 基准值和 viewport 缩放值
+
+```css
+/* 设计稿是750,采用1：100的比例,font-size为100 * (docEl.clientWidth * dpr / 750) */
+var dpr, rem, scale;
+var docEl = document.documentElement;
+var fontEl = document.createElement('style');
+var metaEl = document.querySelector('meta[name="viewport"]');
+dpr = window.devicePixelRatio || 1;
+rem = 100 * (docEl.clientWidth * dpr / 750);
+scale = 1 / dpr;
+// 设置viewport，进行缩放，达到高清效果
+metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale + ',user-scalable=no');
+// 设置data-dpr属性，留作的css hack之用，解决图片模糊问题和1px细线问题
+docEl.setAttribute('data-dpr', dpr);
+// 动态写入样式
+docEl.firstElementChild.appendChild(fontEl);
+fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
+```
+
+[解决移动端 1px 问题-5 种方法:参考](https://www.jianshu.com/p/5d15bfa1da2d)
+
 ## 经典布局
 
 ### 圣杯布局
