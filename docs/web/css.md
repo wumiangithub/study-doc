@@ -552,6 +552,31 @@ fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
 
 - 6、设置父元素非空，填充一定的内容。
 
+# 苹果 x 安全边距适配
+
+- 使用苹果官方推出适配方案 css 函数 env()、constant()来适配
+- 在 IOS11.2 系统以前，可以使用 constant()函数，但是在 IOS11.2 系统以后，这个函数就被废弃了，被 env()函数替代了。
+  safe-area-inset-left：安全区域距离左边边界的距离
+  safe-area-inset-right：安全区域距离右边边界的距离
+  safe-area-inset-top：安全区域距离顶部边界的距离
+  safe-area-inset-bottom ：安全距离底部边界的距离
+- 而 env()和 constant()函数有个必要的使用前提，当网页设置 viewport-fit=cover 的时候才生效，根据微信小程序的表现和我在实际真机测试时这两个函数生效，推测小程序里的 viewport-fit 默认是 cover。
+  - <meta name="viewport" content="width=device-width...... viewport-fit=cover">
+
+```css
+/* 可以通过增加padding-bottom来适配 */
+padding-bottom: constant(safe-area-inset-bottom); /*兼容 IOS<11.2*/
+padding-bottom: env(safe-area-inset-bottom); /*兼容 IOS>11.2*/
+
+/* 可以通过margin-bottom来适配 */
+margin-bottom: constant(safe-area-inset-bottom);
+margin-bottom: env(safe-area-inset-bottom);
+
+/* 或者改变高度*/
+height: calc(50px + constant(safe-area-inset-bottom));
+height: calc(50px + env(safe-area-inset-bottom));
+```
+
 ## 文档
 
 [14 个你需要知道的实用 CSS 技巧](https://mp.weixin.qq.com/s/g_INV0FSQDButK2AQNg7qw)

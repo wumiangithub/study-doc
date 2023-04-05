@@ -213,6 +213,10 @@ Component({
 });
 ```
 
+## background-image:url()只能是网络图片或base64图片，是不可以加载本地图片
+
+- 在.wxml中用<image src = "本地图片地址">，然后使用z-index将图片置于底层（z-index 值小的在底层
+
 ## 微信小程序第三方组件库
 
 - @vant/weapp
