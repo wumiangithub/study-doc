@@ -10,7 +10,7 @@ module.exports = {
       { text: "首页", link: "/" },
       { text: "学习文档收集", link: "/article/" },
       {
-        text: "技术-1",
+        text: "技术",
         items: [
           { text: "快捷键", link: "/shortcut/" },
           { text: "终端", link: "/terminal/" },
@@ -21,7 +21,7 @@ module.exports = {
         ],
       },
       {
-        text: "技术",
+        text: "语言",
         items: [
           { text: "前端", link: "/web/" },
           { text: "vue", link: "/vue/" },
@@ -43,6 +43,7 @@ module.exports = {
           { text: "android", link: "/android/" },
           { text: "ios", link: "/ios/" },
           { text: "electron", link: "/electron/" },
+          { text: "坑", link: "/keng/" },
           { text: "真题", link: "/zhenti/" },
           { text: "其他", link: "/other/" },
         ],
@@ -213,7 +214,16 @@ module.exports = {
       "/markdown/": [""],
       "/vuepress/": [""],
       "/ppt/": [""],
-      "/terminal/": [""],
+      "/terminal/": [
+        {
+          title: "终端",
+          collapsable: true,
+          children: [
+            ["", "终端"],
+            ["adb", "adb"],
+          ],
+        },
+      ],
       "/gongju/": [""],
       "/react_native/": [""],
       "/electron/": [""],
