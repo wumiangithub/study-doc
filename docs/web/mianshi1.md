@@ -126,3 +126,39 @@ console.log(i); //b
   - 通过 js 加载， new Image()
 
 ## RESTful API 设计规范
+
+## javascript 链式调用实现原理
+
+实现链式调用的关键，其实是在当前对象下的每个函数执行完成以后，**return this，** 就可以实现链式调用。
+
+```js
+$('text’).setStyle('color', 'red').show();
+```
+
+```js
+function ClassA() {
+  this.prop1 = null;
+  this.prop2 = null;
+  this.prop3 = null;
+}
+ClassA.prototype = {
+  method1: function (p1) {
+    this.prop1 = p1;
+    return this;
+  },
+  method2: function (p2) {
+    this.prop2 = p2;
+    return this;
+  },
+  method3: function (p3) {
+    this.prop3 = p3;
+    return this;
+  },
+};
+
+var obj = new ClassA();
+obj.method1(1).method2(2).method3(3);
+console.log(obj);
+```
+
+[参考](https://blog.csdn.net/shi851051279/article/details/112498663)
